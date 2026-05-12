@@ -51,6 +51,13 @@
         <!-- ===== 天策府十八学士 ===== -->
         <Row Tag="LOC_LISHIMIN_TALENT_TITLE" Language="zh_Hans_CN"><Text>天策府</Text></Row>
         <Row Tag="LOC_LISHIMIN_TALENT_STACK" Language="zh_Hans_CN"><Text>已招募{1}/{2}位贤才——天策府加成：首都全产出+{3}</Text></Row>
+        <Row Tag="LOC_BUILDING_TALENT_SCHOLAR_NAME" Language="zh_Hans_CN"><Text>天策府·十八学士</Text></Row>
+        <Row Tag="LOC_BUILDING_TALENT_SCHOLAR_DESC" Language="zh_Hans_CN"><Text>天策府十八学士效力中。招募伟人以叠加产出加成，每层+6全产出（最高3层+18）。此建筑由系统自动管理。</Text></Row>
+
+        <!-- ===== 天策府十八学士 Dummy Buildings ===== -->
+        <Row Tag="LOC_BUILDING_TALENT_SCHOLAR_1_NAME" Language="zh_Hans_CN"><Text>天策府一层</Text></Row>
+        <Row Tag="LOC_BUILDING_TALENT_SCHOLAR_2_NAME" Language="zh_Hans_CN"><Text>天策府二层</Text></Row>
+        <Row Tag="LOC_BUILDING_TALENT_SCHOLAR_3_NAME" Language="zh_Hans_CN"><Text>天策府三层</Text></Row>
 
         <!-- ===== 登基线 ===== -->
         <Row Tag="LOC_LISHIMIN_XUANWU_BUILT" Language="zh_Hans_CN"><Text>玄武门已建成！李建成出现于玄武门——操控天策上将完成致命一击，完成登基仪式。</Text></Row>

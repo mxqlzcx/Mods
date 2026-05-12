@@ -62,11 +62,13 @@
         <Row UnitType="UNIT_LI_JIANCHENG"
              Name="LOC_UNIT_LI_JIANCHENG_NAME"
              Description="LOC_UNIT_LI_JIANCHENG_DESC"
-             BaseMoves="0" Cost="1" BaseSightRange="0"
+             BaseMoves="0" Cost="1" BaseSightRange="1"
              ZoneOfControl="false"
              Domain="DOMAIN_LAND"
-             FormationClass="FORMATION_CLASS_CIVILIAN"
-             AdvisorType="ADVISOR_GENERIC"/>
+             FormationClass="FORMATION_CLASS_LAND_COMBAT"
+             PromotionClass="PROMOTION_CLASS_LAND_COMBAT"
+             Combat="100" RangedCombat="0" Range="0"
+             AdvisorType="ADVISOR_GENERAL"/>
     </Units>
 
     <!-- 玄甲军替代骑士 -->
@@ -96,4 +98,54 @@
         已改用纯 Lua 实现（ZhenguanTaizong.lua），效果完全一致：
         每城 +3% 全产出，上限 24%（8城）。
     -->
+
+    <!-- ===== 十八学士 Dummy Buildings ===== -->
+    <Buildings>
+        <Row BuildingType="BUILDING_TALENT_SCHOLAR_1"
+             Name="LOC_BUILDING_TALENT_SCHOLAR_NAME"
+             Description="LOC_BUILDING_TALENT_SCHOLAR_DESC"
+             PrereqDistrict="DISTRICT_CITY_CENTER"
+             PrereqTech="TECH_ARCHERY" Cost="0"
+             IconAtlas="ICON_ATLAS_DEFAULT" IconIndex="0"/>
+        <Row BuildingType="BUILDING_TALENT_SCHOLAR_2"
+             Name="LOC_BUILDING_TALENT_SCHOLAR_NAME"
+             Description="LOC_BUILDING_TALENT_SCHOLAR_DESC"
+             PrereqDistrict="DISTRICT_CITY_CENTER"
+             PrereqTech="TECH_ARCHERY" Cost="0"
+             IconAtlas="ICON_ATLAS_DEFAULT" IconIndex="0"/>
+        <Row BuildingType="BUILDING_TALENT_SCHOLAR_3"
+             Name="LOC_BUILDING_TALENT_SCHOLAR_NAME"
+             Description="LOC_BUILDING_TALENT_SCHOLAR_DESC"
+             PrereqDistrict="DISTRICT_CITY_CENTER"
+             PrereqTech="TECH_ARCHERY" Cost="0"
+             IconAtlas="ICON_ATLAS_DEFAULT" IconIndex="0"/>
+    </Buildings>
+
+    <!-- 十八学士产出 -->
+    <Building_YieldChanges>
+        <Row BuildingType="BUILDING_TALENT_SCHOLAR_1" YieldType="YIELD_FOOD" YieldChange="6"/>
+        <Row BuildingType="BUILDING_TALENT_SCHOLAR_1" YieldType="YIELD_PRODUCTION" YieldChange="6"/>
+        <Row BuildingType="BUILDING_TALENT_SCHOLAR_1" YieldType="YIELD_GOLD" YieldChange="6"/>
+        <Row BuildingType="BUILDING_TALENT_SCHOLAR_1" YieldType="YIELD_SCIENCE" YieldChange="6"/>
+        <Row BuildingType="BUILDING_TALENT_SCHOLAR_1" YieldType="YIELD_CULTURE" YieldChange="6"/>
+        <Row BuildingType="BUILDING_TALENT_SCHOLAR_1" YieldType="YIELD_FAITH" YieldChange="6"/>
+
+        <Row BuildingType="BUILDING_TALENT_SCHOLAR_2" YieldType="YIELD_FOOD" YieldChange="12"/>
+        <Row BuildingType="BUILDING_TALENT_SCHOLAR_2" YieldType="YIELD_PRODUCTION" YieldChange="12"/>
+        <Row BuildingType="BUILDING_TALENT_SCHOLAR_2" YieldType="YIELD_GOLD" YieldChange="12"/>
+        <Row BuildingType="BUILDING_TALENT_SCHOLAR_2" YieldType="YIELD_SCIENCE" YieldChange="12"/>
+        <Row BuildingType="BUILDING_TALENT_SCHOLAR_2" YieldType="YIELD_CULTURE" YieldChange="12"/>
+        <Row BuildingType="BUILDING_TALENT_SCHOLAR_2" YieldType="YIELD_FAITH" YieldChange="12"/>
+
+        <Row BuildingType="BUILDING_TALENT_SCHOLAR_3" YieldType="YIELD_FOOD" YieldChange="18"/>
+        <Row BuildingType="BUILDING_TALENT_SCHOLAR_3" YieldType="YIELD_PRODUCTION" YieldChange="18"/>
+        <Row BuildingType="BUILDING_TALENT_SCHOLAR_3" YieldType="YIELD_GOLD" YieldChange="18"/>
+        <Row BuildingType="BUILDING_TALENT_SCHOLAR_3" YieldType="YIELD_SCIENCE" YieldChange="18"/>
+        <Row BuildingType="BUILDING_TALENT_SCHOLAR_3" YieldType="YIELD_CULTURE" YieldChange="18"/>
+        <Row BuildingType="BUILDING_TALENT_SCHOLAR_3" YieldType="YIELD_FAITH" YieldChange="18"/>
+    </Building_YieldChanges>
+
+    <!-- 隐藏建筑（不显示在游戏中） -->
+    <Building_GreatPersonPoints>
+    </Building_GreatPersonPoints>
 </GameData>
