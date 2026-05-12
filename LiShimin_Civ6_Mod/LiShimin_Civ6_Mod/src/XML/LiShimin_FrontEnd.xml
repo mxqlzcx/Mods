@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameData>
+    <Players>
+        <Row>
+            <Domain>Players:Expansion2_Players</Domain>
+            <CivilizationType>CIVILIZATION_CHINA</CivilizationType>
+            <LeaderType>LEADER_LI_SHIMIN</LeaderType>
+            <CivilizationName>LOC_CIVILIZATION_CHINA_NAME</CivilizationName>
+            <CivilizationIcon>ICON_CIVILIZATION_CHINA</CivilizationIcon>
+            <LeaderName>LOC_LEADER_LI_SHIMIN_NAME</LeaderName>
+            <LeaderIcon>ICON_LEADER_LI_SHIMIN</LeaderIcon>
+            <CivilizationAbilityName>LOC_TRAIT_CIVILIZATION_DYNASTIC_CYCLE_NAME</CivilizationAbilityName>
+            <CivilizationAbilityDescription>LOC_TRAIT_CIVILIZATION_DYNASTIC_CYCLE_DESCRIPTION</CivilizationAbilityDescription>
+            <CivilizationAbilityIcon>ICON_CIVILIZATION_CHINA</CivilizationAbilityIcon>
+            <LeaderAbilityName>LOC_TRAIT_LEADER_LI_SHIMIN_NAME</LeaderAbilityName>
+            <LeaderAbilityDescription>LOC_TRAIT_LEADER_LI_SHIMIN_DESCRIPTION</LeaderAbilityDescription>
+            <LeaderAbilityIcon>ICON_LEADER_LI_SHIMIN</LeaderAbilityIcon>
+            <Portrait>ICON_LEADER_LI_SHIMIN</Portrait>
+        </Row>
+    </Players>
+    <PlayerItems>
+        <Row Domain="Players:Expansion2_Players" CivilizationType="CIVILIZATION_CHINA" LeaderType="LEADER_LI_SHIMIN" Type="UNIT_TIANCE_GENERAL" Icon="ICON_LEADER_LI_SHIMIN" Name="LOC_UNIT_TIANCE_GENERAL_NAME" Description="LOC_UNIT_TIANCE_GENERAL_DESC" SortIndex="5" />
+        <Row Domain="Players:Expansion2_Players" CivilizationType="CIVILIZATION_CHINA" LeaderType="LEADER_LI_SHIMIN" Type="UNIT_XUANJIA_ARMY" Icon="ICON_LEADER_LI_SHIMIN" Name="LOC_UNIT_XUANJIA_ARMY_NAME" Description="LOC_UNIT_XUANJIA_ARMY_DESC" SortIndex="10" />
+        <Row Domain="Players:Expansion2_Players" CivilizationType="CIVILIZATION_CHINA" LeaderType="LEADER_LI_SHIMIN" Type="BUILDING_XUANWU_GATE" Icon="ICON_LEADER_LI_SHIMIN" Name="LOC_BUILDING_XUANWU_GATE_NAME" Description="LOC_BUILDING_XUANWU_GATE_DESC" SortIndex="20" />
+    </PlayerItems>
+</GameData>

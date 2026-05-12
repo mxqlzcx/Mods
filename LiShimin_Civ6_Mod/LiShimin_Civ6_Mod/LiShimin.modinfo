@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Mod id="6f3a9c2e-1d44-4f1b-9c7e-a8b7c6d5e4f3" version="1">
+    <Properties>
+        <Name>天策上将·唐太宗（李世民）</Name>
+        <Description>李世民双形态领袖模组：天策上将（远古-古典）→ 玄武门之变 → 唐太宗（中世纪及以后），含藩王线支线剧情，完整Lua状态机驱动。</Description>
+        <Teaser>千古一帝李世民，双形态领袖模组</Teaser>
+        <Authors>模组开发者</Authors>
+        <CompatibleVersions>2.0</CompatibleVersions>
+        <SupportsSinglePlayer>1</SupportsSinglePlayer>
+        <AffectsSavedGames>1</AffectsSavedGames>
+    </Properties>
+    <!-- 前端加载：领袖基础数据与图标，不含Modifiers -->
+    <FrontEndActions>
+        <UpdateDatabase id="database_frontend">
+            <File>src/XML/LiShimin_FrontEnd.xml</File>
+        </UpdateDatabase>
+        <UpdateIcons id="icon">
+            <File>src/XML/LiShimin_Icons.xml</File>
+        </UpdateIcons>
+        <UpdateText id="text">
+            <File>src/XML/LiShimin_Text.xml</File>
+        </UpdateText>
+    </FrontEndActions>
+    <!-- 游戏内加载：数据库、Lua、UI -->
+    <InGameActions>
+        <UpdateDatabase id="database_game">
+            <File>src/XML/LiShimin_Gameplay.xml</File>
+        </UpdateDatabase>
+        <UpdateText id="text">
+            <File>src/XML/LiShimin_Text.xml</File>
+        </UpdateText>
+        <UpdateArt id="art">
+            <File>LiShimin.dep</File>
+        </UpdateArt>
+        <GameplayScripts id="lua">
+            <File Priority="300">config/constants.lua</File>
+            <File Priority="290">config/balance.lua</File>
+            <File Priority="270">src/Lua/Utils.lua</File>
+            <File Priority="260">src/Lua/EventBus.lua</File>
+            <File Priority="250">src/Lua/HeroDeath.lua</File>
+            <File Priority="245">src/Lua/TalentReserve.lua</File>
+            <File Priority="240">src/Lua/PrinceLine.lua</File>
+            <File Priority="235">src/Lua/ZhenguanTaizong.lua</File>
+            <File Priority="230">src/Lua/Coronation.lua</File>
+            <File Priority="220">src/Lua/Main.lua</File>
+        </GameplayScripts>
+        <AddUserInterfaces id="ui">
+            <Properties>
+                <Context>InGame</Context>
+            </Properties>
+            <File>src/UI/LiShiminPresentation.xml</File>
+        </AddUserInterfaces>
+    </InGameActions>
+    <Files>
+        <File>LiShimin.dep</File>
+        <File>LiShimin.Art.xml</File>
+        <File>ArtDefs/FallbackLeaders.artdef</File>
+        <File>Platforms/Windows/BLPs/LeaderFallbacks.blp</File>
+        <File>Platforms/Windows/BLPs/LiShiminDDS.blp</File>
+        <File>Platforms/MacOS/BLPs/LeaderFallbacks.blp</File>
+        <File>Platforms/MacOS/BLPs/LiShiminDDS.blp</File>
+        <File>config/constants.lua</File>
+        <File>config/balance.lua</File>
+        <File>src/Lua/Utils.lua</File>
+        <File>src/Lua/EventBus.lua</File>
+        <File>src/Lua/HeroDeath.lua</File>
+        <File>src/Lua/TalentReserve.lua</File>
+        <File>src/Lua/PrinceLine.lua</File>
+        <File>src/Lua/ZhenguanTaizong.lua</File>
+        <File>src/Lua/Coronation.lua</File>
+        <File>src/Lua/Main.lua</File>
+        <File>src/UI/LiShiminPresentation.xml</File>
+        <File>src/UI/LiShiminPresentation.lua</File>
+        <File>src/XML/LiShimin_Text.xml</File>
+        <File>src/XML/LiShimin_FrontEnd.xml</File>
+        <File>src/XML/LiShimin_Gameplay.xml</File>
+        <File>src/XML/LiShimin_Icons.xml</File>
+        <File>art/icons/Lishimin_Xuanwu.dds</File>
+        <File>art/icons/Lishimin_Coronation.dds</File>
+        <File>art/icons/Lishimin_Leader.dds</File>
+    </Files>
+</Mod>

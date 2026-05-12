@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  图标定义文件（已精简为零定义）
+  
+  注意：自定义 Atlas 引用（ATLAS_LISHIMIN_XUANWU 等）会导致
+  FOREIGN KEY constraint failed 错误阻断 mod 加载。
+  已移除所有 IconDefinitions，游戏将使用默认图标。
+  
+  如需恢复自定义图标，需：
+  1. 在 ArtDefs 中定义对应的 AtlasDefinition
+  2. 确保 AtlasDefinitions SQL 表中有对应条目
+  3. 然后在此文件重新添加 IconDefinitions
+-->
+<GameData>
+    <!-- 无自定义图标定义，使用游戏默认图标 -->
+</GameData>

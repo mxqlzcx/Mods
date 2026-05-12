@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameData>
+    <!-- 类型定义 -->
+    <Types>
+        <Row Type="LEADER_LI_SHIMIN" Kind="KIND_LEADER"/>
+        <Row Type="TRAIT_LEADER_LI_SHIMIN" Kind="KIND_TRAIT"/>
+    </Types>
+    
+    <!-- 领袖定义 -->
+    <Leaders>
+        <Row LeaderType="LEADER_LI_SHIMIN"
+             Name="LOC_LEADER_LI_SHIMIN_NAME"
+             InheritFrom="LEADER_DEFAULT"
+             SceneLayers="4"
+             Sex="Male"/>
+    </Leaders>
+    
+    <!-- 特性定义（Traits 表无 Type 列，LeaderTraits 已关联领袖） -->
+    <Traits>
+        <Row TraitType="TRAIT_LEADER_LI_SHIMIN" 
+             Name="LOC_TRAIT_LEADER_LI_SHIMIN_NAME" 
+             Description="LOC_TRAIT_LEADER_LI_SHIMIN_DESCRIPTION"/>
+    </Traits>
+    
+    <!-- 领袖特性关联 -->
+    <LeaderTraits>
+        <Row LeaderType="LEADER_LI_SHIMIN" TraitType="TRAIT_LEADER_LI_SHIMIN"/>
+    </LeaderTraits>
+    
+    <!-- 领袖与文明关联 -->
+    <CivilizationLeaders>
+        <Row CivilizationType="CIVILIZATION_CHINA" 
+             LeaderType="LEADER_LI_SHIMIN" 
+             CapitalName="LOC_CITY_NAME_CHANGAN"/>
+    </CivilizationLeaders>
+    
+    <!-- LoadingInfo - 前端加载界面 -->
+    <LoadingInfo>
+        <Row LeaderType="LEADER_LI_SHIMIN"
+             ForegroundImage="ICON_LEADER_LI_SHIMIN"
+             BackgroundImage="ICON_CIVILIZATION_CHINA_BACKGROUND"
+             PlayDawnOfManAudio="1"
+             LeaderText="LOC_LEADER_LI_SHIMIN_INFO"/>
+    </LoadingInfo>
+    
+    <!-- DiplomacyInfo - 外交界面 -->
+    <DiplomacyInfo>
+        <Row Type="LEADER_LI_SHIMIN" 
+             BackgroundImage="ICON_CIVILIZATION_CHINA_BACKGROUND"/>
+    </DiplomacyInfo>
+</GameData>
