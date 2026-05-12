@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AssetObjects::GameArtSpecification>
+	<id>
+		<name text="天策上将·唐太宗（李世民）"/>
+		<id text="6f3a9c2e-1d44-4f1b-9c7e-a8b7c6d5e4f3"/>
+	</id>
+	<artConsumers>
+		<Element>
+			<consumerName text="Leaders"/>
+			<relativeArtDefPaths/>
+			<libraryDependencies>
+				<Element text="Leader"/>
+				<Element text="LeaderLighting"/>
+				<Element text="ColorKey"/>
+			</libraryDependencies>
+			<loadsLibraries>true</loadsLibraries>
+		</Element>
+		<Element>
+			<consumerName text="LeaderFallback"/>
+			<relativeArtDefPaths>
+				<Element text="FallbackLeaders.artdef"/>
+			</relativeArtDefPaths>
+			<libraryDependencies>
+				<Element text="LeaderFallback"/>
+			</libraryDependencies>
+			<loadsLibraries>true</loadsLibraries>
+		</Element>
+		<Element>
+			<consumerName text="LeaderLighting"/>
+			<relativeArtDefPaths/>
+			<libraryDependencies>
+				<Element text="LeaderLighting"/>
+				<Element text="ColorKey"/>
+			</libraryDependencies>
+			<loadsLibraries>true</loadsLibraries>
+		</Element>
+		<Element>
+			<consumerName text="Civilizations"/>
+			<relativeArtDefPaths/>
+			<libraryDependencies/>
+			<loadsLibraries>false</loadsLibraries>
+		</Element>
+		<Element>
+			<consumerName text="Cultures"/>
+			<relativeArtDefPaths/>
+			<libraryDependencies/>
+			<loadsLibraries>false</loadsLibraries>
+		</Element>
+	</artConsumers>
+	<gameLibraries>
+		<Element>
+			<libraryName text="Leader"/>
+			<relativePackagePaths/>
+		</Element>
+		<Element>
+			<libraryName text="LeaderFallback"/>
+			<relativePackagePaths>
+				<Element text="LeaderFallbacks"/>
+			</relativePackagePaths>
+		</Element>
+		<Element>
+			<libraryName text="LeaderLighting"/>
+			<relativePackagePaths/>
+		</Element>
+		<Element>
+			<libraryName text="ColorKey"/>
+			<relativePackagePaths/>
+		</Element>
+		<Element>
+			<libraryName text="UITexture"/>
+			<relativePackagePaths>
+				<Element text="LiShiminDDS"/>
+			</relativePackagePaths>
+		</Element>
+		<Element>
+			<libraryName text="CityBuildings"/>
+			<relativePackagePaths/>
+		</Element>
+		<Element>
+			<libraryName text="TileBase"/>
+			<relativePackagePaths/>
+		</Element>
+		<Element>
+			<libraryName text="RouteDecalMaterial"/>
+			<relativePackagePaths/>
+		</Element>
+		<Element>
+			<libraryName text="TerrainAsset"/>
+			<relativePackagePaths/>
+		</Element>
+		<Element>
+			<libraryName text="VFX"/>
+			<relativePackagePaths/>
+		</Element>
+		<Element>
+			<libraryName text="Unit"/>
+			<relativePackagePaths/>
+		</Element>
+		<Element>
+			<libraryName text="Landmark"/>
+			<relativePackagePaths/>
+		</Element>
+		<Element>
+			<libraryName text="Water"/>
+			<relativePackagePaths/>
+		</Element>
+		<Element>
+			<libraryName text="WonderMovie"/>
+			<relativePackagePaths/>
+		</Element>
+	</gameLibraries>
+	<requiredGameArtIDs>
+		<Element>
+			<name text="Civ6"/>
+			<id text="cb2f71b7-843e-4af3-9ca7-992acda9c195"/>
+		</Element>
+	</requiredGameArtIDs>
+</AssetObjects::GameArtSpecification>

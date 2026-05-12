@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameData>
+    <LocalizedText>
+        <!-- ===== 领袖基础 ===== -->
+        <Row Tag="LOC_LEADER_LI_SHIMIN_NAME" Language="en_US"><Text>Li Shimin (Tang Taizong)</Text></Row>
+        <Row Tag="LOC_LEADER_LI_SHIMIN_NAME" Language="zh_Hans_CN"><Text>李世民（唐太宗）</Text></Row>
+
+        <Row Tag="LOC_TRAIT_LEADER_LI_SHIMIN_NAME" Language="en_US"><Text>Tiance Grand Marshal</Text></Row>
+        <Row Tag="LOC_TRAIT_LEADER_LI_SHIMIN_NAME" Language="zh_Hans_CN"><Text>天策上将</Text></Row>
+
+        <Row Tag="LOC_TRAIT_LEADER_LI_SHIMIN_DESCRIPTION" Language="en_US">
+            <Text>Start as Tiance General with a heroic ranged unit and the Xuanjia heavy cavalry. Recruit Great People to boost your capital through the Eighteen Scholars system. Enter the Medieval Era to trigger the Xuanwu Gate Incident — conquer enough cities for the coronation path, or face the Prince Line with penalties and a restoration quest. Upon becoming Emperor Taizong, enjoy the Golden Age of Zhenguan with empire-wide bonuses, free envoys, and diplomatic leverage.</Text>
+        </Row>
+        <Row Tag="LOC_TRAIT_LEADER_LI_SHIMIN_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>以天策上将形态开局，拥有英雄远程单位「天策上将」和精锐重骑兵「玄甲军」。通过天策府十八学士系统招募伟人强化首都。进入中世纪触发玄武门之变：征服足够城市走登基线登基为唐太宗；否则进入藩王线背水一战。唐太宗形态享有贞观之治全域加成、万国来朝免费使者与天可汗外交智慧。</Text>
+        </Row>
+
+        <!-- ===== 欢迎/提示 ===== -->
+        <Row Tag="LOC_LISHIMIN_WELCOME_TITLE" Language="zh_Hans_CN"><Text>李世民模组</Text></Row>
+        <Row Tag="LOC_LISHIMIN_WELCOME_BODY" Language="zh_Hans_CN"><Text>天策上将已就位。征服天下，招揽贤才——进入中世纪时将面临玄武门之变的抉择。天策上将阵亡将导致直接失败。</Text></Row>
+        <Row Tag="LOC_LISHIMIN_NOTIFY_TITLE" Language="zh_Hans_CN"><Text>李世民</Text></Row>
+        <Row Tag="LOC_LISHIMIN_TIANCE_SPAWNED" Language="zh_Hans_CN"><Text>天策上将已就位于首都附近。善用他的远程火力和护卫机制，但他阵亡将导致游戏失败！</Text></Row>
+
+        <!-- ===== 单位 ===== -->
+        <Row Tag="LOC_UNIT_TIANCE_GENERAL_NAME" Language="zh_Hans_CN"><Text>天策上将</Text></Row>
+        <Row Tag="LOC_UNIT_TIANCE_GENERAL_DESC" Language="zh_Hans_CN">
+            <Text>李世民专属英雄远程单位。携带秦王弓，2格射程，高额战斗力。周围2格存在友军时无法被敌方直接选中。该单位阵亡将直接导致游戏失败。</Text>
+        </Row>
+
+        <Row Tag="LOC_UNIT_XUANJIA_ARMY_NAME" Language="zh_Hans_CN"><Text>玄甲军</Text></Row>
+        <Row Tag="LOC_UNIT_XUANJIA_ARMY_DESC" Language="zh_Hans_CN">
+            <Text>李世民专属重骑兵单位，替代骑士。取材自虎牢关之战中人与俱甲的大唐精锐骑兵，拥有更高基础战斗力。</Text>
+        </Row>
+
+        <Row Tag="LOC_UNIT_LI_JIANCHENG_NAME" Language="zh_Hans_CN"><Text>李建成</Text></Row>
+        <Row Tag="LOC_UNIT_LI_JIANCHENG_DESC" Language="zh_Hans_CN">
+            <Text>玄武门仪式目标。1点生命值，无法移动，仅可被天策上将攻击。射杀李建成完成登基仪式。</Text>
+        </Row>
+
+        <!-- ===== 建筑 ===== -->
+        <Row Tag="LOC_BUILDING_XUANWU_GATE_NAME" Language="zh_Hans_CN"><Text>玄武门</Text></Row>
+        <Row Tag="LOC_BUILDING_XUANWU_GATE_DESC" Language="zh_Hans_CN">
+            <Text>李世民登基仪式专属建筑。建造后触发玄武门之变的叙事任务：召唤李建成并用天策上将将其射杀，完成权力交接。+2文化。</Text>
+        </Row>
+
+        <!-- ===== 天策府十八学士 ===== -->
+        <Row Tag="LOC_LISHIMIN_TALENT_TITLE" Language="zh_Hans_CN"><Text>天策府</Text></Row>
+        <Row Tag="LOC_LISHIMIN_TALENT_STACK" Language="zh_Hans_CN"><Text>已招募{1}/{2}位贤才——天策府加成：首都全产出+{3}</Text></Row>
+
+        <!-- ===== 登基线 ===== -->
+        <Row Tag="LOC_LISHIMIN_XUANWU_BUILT" Language="zh_Hans_CN"><Text>已建成玄武门。天策上将移动至玄武门相邻区域可「射杀李建成」完成登基仪式。</Text></Row>
+        <Row Tag="LOC_LISHIMIN_ERA_CORONATION_PATH" Language="zh_Hans_CN"><Text>进入中世纪：征服数达标！你走「登基线」。建造玄武门并完成仪式，即可转为唐太宗形态。</Text></Row>
+        <Row Tag="LOC_LISHIMIN_CORONATION_SUCCESS" Language="zh_Hans_CN"><Text>登基完成！你已射杀李建成，正式成为唐太宗。开启贞观之治！</Text></Row>
+
+        <!-- ===== 藩王线 ===== -->
+        <Row Tag="LOC_LISHIMIN_ERA_PRINCE_PATH" Language="zh_Hans_CN"><Text>进入中世纪：征服不足！你走「藩王线」。限时30回合建造玄武门、夺回首都、保全天策上将并完成仪式，否则失败。</Text></Row>
+        <Row Tag="LOC_LISHIMIN_PRINCE_TITLE" Language="zh_Hans_CN"><Text>藩王线</Text></Row>
+        <Row Tag="LOC_LISHIMIN_PRINCE_START" Language="zh_Hans_CN"><Text>成则为王，败则为寇。你已无正统登基资格，唯有破釜沉舟，以武力夺回天下！30回合内完成复辟目标。</Text></Row>
+        <Row Tag="LOC_LISHIMIN_PRINCE_COUNTDOWN" Language="zh_Hans_CN"><Text>复辟倒计时：剩余{1}回合。请关注玄武门、首都收复与征服进度。</Text></Row>
+        <Row Tag="LOC_LISHIMIN_RESTORATION_SUCCESS" Language="zh_Hans_CN"><Text>复辟成功！你重登大位，开启唐太宗形态。</Text></Row>
+        <Row Tag="LOC_LISHIMIN_RESTORATION_FAILED" Language="zh_Hans_CN"><Text>复辟失败！30回合已过，反叛被镇压，游戏结束。</Text></Row>
+
+        <!-- ===== 唐太宗：贞观之治 ===== -->
+        <Row Tag="LOC_LISHIMIN_ZHENGUAN_TITLE" Language="zh_Hans_CN"><Text>贞观之治</Text></Row>
+        <Row Tag="LOC_LISHIMIN_ZHENGUAN_STATUS" Language="zh_Hans_CN"><Text>管辖{1}座城市，全域产出+{2}%</Text></Row>
+
+        <!-- ===== 万国来朝 ===== -->
+        <Row Tag="LOC_LISHIMIN_WORLD_TITLE" Language="zh_Hans_CN"><Text>万国来朝</Text></Row>
+        <Row Tag="LOC_LISHIMIN_WORLD_ENVOY_GAIN" Language="zh_Hans_CN"><Text>万国来朝：获得1名免费使者。</Text></Row>
+
+        <!-- ===== 天可汗智慧 ===== -->
+        <Row Tag="LOC_LISHIMIN_DIPLOMACY_TITLE" Language="zh_Hans_CN"><Text>天可汗</Text></Row>
+        <Row Tag="LOC_LISHIMIN_DIPLOMACY_WAR_DECLARE" Language="zh_Hans_CN"><Text>你主动宣战——各国对你更加警惕（所有领袖好感-10）。</Text></Row>
+        <Row Tag="LOC_LISHIMIN_DIPLOMACY_DEFENSIVE" Language="zh_Hans_CN"><Text>你被宣战——各国对你表示同情与支持（所有领袖好感+15）。</Text></Row>
+    </LocalizedText>
+</GameData>
