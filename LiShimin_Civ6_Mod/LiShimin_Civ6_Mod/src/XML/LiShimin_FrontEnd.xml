@@ -21,6 +21,6 @@
     <PlayerItems>
         <Row Domain="Players:Expansion2_Players" CivilizationType="CIVILIZATION_CHINA" LeaderType="LEADER_LI_SHIMIN" Type="UNIT_TIANCE_GENERAL" Icon="ICON_LEADER_LI_SHIMIN" Name="LOC_UNIT_TIANCE_GENERAL_NAME" Description="LOC_UNIT_TIANCE_GENERAL_DESC" SortIndex="5" />
         <Row Domain="Players:Expansion2_Players" CivilizationType="CIVILIZATION_CHINA" LeaderType="LEADER_LI_SHIMIN" Type="UNIT_XUANJIA_ARMY" Icon="ICON_LEADER_LI_SHIMIN" Name="LOC_UNIT_XUANJIA_ARMY_NAME" Description="LOC_UNIT_XUANJIA_ARMY_DESC" SortIndex="10" />
-        <Row Domain="Players:Expansion2_Players" CivilizationType="CIVILIZATION_CHINA" LeaderType="LEADER_LI_SHIMIN" Type="BUILDING_XUANWU_GATE" Icon="ICON_LEADER_LI_SHIMIN" Name="LOC_BUILDING_XUANWU_GATE_NAME" Description="LOC_BUILDING_XUANWU_GATE_DESC" SortIndex="20" />
+        <Row Domain="Players:Expansion2_Players" CivilizationType="CIVILIZATION_CHINA" LeaderType="LEADER_LI_SHIMIN" Type="IMPROVEMENT_XUANWU_GATE" Icon="ICON_IMPROVEMENT_XUANWU_GATE" Name="LOC_IMPROVEMENT_XUANWU_GATE_NAME" Description="LOC_IMPROVEMENT_XUANWU_GATE_DESC" SortIndex="20" />
     </PlayerItems>
 </GameData>

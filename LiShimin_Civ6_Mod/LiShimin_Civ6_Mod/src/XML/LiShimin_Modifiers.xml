@@ -64,7 +64,7 @@
              OwnerRequirementSetId="REQSET_LISHIMIN_PRINCE_LINE"/>
         <!-- 藩王线：军事单位 +150% 生产力 -->
         <Row ModifierId="MODIFIER_LISHIMIN_PRINCE_MILITARY_BOOST"
-             ModifierType="MODIFIER_PLAYER_UNITS_ADJUST_UNIT_PRODUCTION"
+             ModifierType="MODIFIER_PLAYER_CITIES_ADJUST_MILITARY_UNITS_PRODUCTION"
              OwnerRequirementSetId="REQSET_LISHIMIN_PRINCE_LINE"/>
     </Modifiers>
 

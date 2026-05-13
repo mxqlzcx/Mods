@@ -32,7 +32,7 @@ function PrinceLine_Activate(playerID)
         end
     end
 
-    d.XuanwuGateBuilt = PlayerHasBuildingType(playerID, BUILDING_XUANWU_GATE)
+    d.XuanwuGateBuilt = PlayerHasImprovementType(playerID, IMPROVEMENT_XUANWU_GATE)
     LiShiminSavePlayerFieldsToProperties(playerID, d)
 
     -- 设置 Property = 1 触发 XML Modifiers 生效
@@ -154,7 +154,7 @@ function PrinceLine_IsWinSatisfied(playerID, d)
     if not d then return false end
 
     -- 条件1：玄武门仪式已完成（建成玄武门+李建成被击杀）
-    local gateOk = d.XuanwuGateBuilt or PlayerHasBuildingType(playerID, BUILDING_XUANWU_GATE)
+    local gateOk = d.XuanwuGateBuilt or PlayerHasImprovementType(playerID, IMPROVEMENT_XUANWU_GATE)
     if not gateOk then return false end
 
     -- 条件2：藩王线额外征服要求（简介.txt：同步完成三大目标）

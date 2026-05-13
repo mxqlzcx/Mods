@@ -81,7 +81,7 @@ function LiShiminMod_OnEraChanged(playerID, newEra, oldEra)
         -- 登基线
         d.LeaderState = LEADER_STATE.CORONATION
         d.CoronationTurnsSinceGate = 0
-        if PlayerHasBuildingType(playerID, BUILDING_XUANWU_GATE) then
+        if PlayerHasImprovementType(playerID, IMPROVEMENT_XUANWU_GATE) then
             d.XuanwuGateBuilt = true
         end
         LiShiminSavePlayerFieldsToProperties(playerID, d)

@@ -188,6 +188,26 @@ function PlayerHasBuildingType(playerID, buildingTypeStr)
     return false
 end
 
+function PlayerHasImprovementType(playerID, improvementTypeStr)
+    local player = Players[playerID]
+    local impDef = GameInfo.Improvements[improvementTypeStr]
+    if not player or not impDef then
+        return false
+    end
+    for _, city in player:GetCities():Members() do
+        local numPlots = city:GetOwnedPlots()
+        if numPlots then
+            for i = 0, numPlots - 1 do
+                local plot = city:GetOwnedPlot(i)
+                if plot and plot:GetImprovementType() == impDef.Index then
+                    return true
+                end
+            end
+        end
+    end
+    return false
+end
+
 function PlotOwnedByMajor(playerID, plotX, plotY)
     local plot = Map.GetPlot(plotX, plotY)
     if not plot then
@@ -335,6 +355,7 @@ return {
     IsLiShiminLeaderPlayer = IsLiShiminLeaderPlayer,
     PlayerSupportsModProperties = PlayerSupportsModProperties,
     PlayerHasBuildingType = PlayerHasBuildingType,
+    PlayerHasImprovementType = PlayerHasImprovementType,
     PlotOwnedByMajor = PlotOwnedByMajor,
     LiShiminLoadPlayerFieldsFromProperties = LiShiminLoadPlayerFieldsFromProperties,
     LiShiminSavePlayerFieldsToProperties = LiShiminSavePlayerFieldsToProperties,
