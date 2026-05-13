@@ -7,7 +7,7 @@
         <Row Type="UNIT_TIANCE_GENERAL" Kind="KIND_UNIT"/>
         <Row Type="UNIT_XUANJIA_ARMY" Kind="KIND_UNIT"/>
         <Row Type="UNIT_LI_JIANCHENG" Kind="KIND_UNIT"/>
-        <Row Type="BUILDING_XUANWU_GATE" Kind="KIND_BUILDING"/>
+        <Row Type="IMPROVEMENT_XUANWU_GATE" Kind="KIND_IMPROVEMENT"/>
     </Types>
 
     <!-- ===== 领袖 ===== -->
@@ -65,9 +65,7 @@
              BaseMoves="0" Cost="1" BaseSightRange="1"
              ZoneOfControl="false"
              Domain="DOMAIN_LAND"
-             FormationClass="FORMATION_CLASS_LAND_COMBAT"
-             PromotionClass="PROMOTION_CLASS_LAND_COMBAT"
-             Combat="100" RangedCombat="0" Range="0"
+             FormationClass="FORMATION_CLASS_CIVILIAN"
              AdvisorType="ADVISOR_GENERAL"/>
     </Units>
 
@@ -76,20 +74,37 @@
         <Row CivUniqueUnitType="UNIT_XUANJIA_ARMY" ReplacesUnitType="UNIT_KNIGHT"/>
     </UnitReplaces>
 
-    <!-- ===== 建筑：玄武门 ===== -->
-    <Buildings>
-        <Row BuildingType="BUILDING_XUANWU_GATE"
-             Name="LOC_BUILDING_XUANWU_GATE_NAME"
-             Description="LOC_BUILDING_XUANWU_GATE_DESC"
-             PrereqDistrict="DISTRICT_CITY_CENTER"
-             PurchaseYield="YIELD_GOLD" Cost="120"
-             AdvisorType="ADVISOR_CULTURE" Housing="2"
-             IconAtlas="ICON_ATLAS_DEFAULT" IconIndex="0"/>
-    </Buildings>
+    <!-- ===== 改良设施：玄武门 ===== -->
+    <!-- 由工人（BUILDER）消耗1次劳动力瞬间完成，只能建在首都旁，李世民专属 -->
+    <Improvements>
+        <Row ImprovementType="IMPROVEMENT_XUANWU_GATE"
+             Name="LOC_IMPROVEMENT_XUANWU_GATE_NAME"
+             Description="LOC_IMPROVEMENT_XUANWU_GATE_DESC"
+             Icon="ICON_IMPROVEMENT_XUANWU_GATE"
+             PlunderType="NO_PLUNDER"
+             BuildableByPlayer="true"
+             TraitType="TRAIT_LEADER_LI_SHIMIN"
+             Domain="DOMAIN_LAND"/>
+    </Improvements>
 
-    <Building_YieldChanges>
-        <Row BuildingType="BUILDING_XUANWU_GATE" YieldType="YIELD_CULTURE" YieldChange="2"/>
-    </Building_YieldChanges>
+    <Improvement_ValidBuildUnits>
+        <Row ImprovementType="IMPROVEMENT_XUANWU_GATE" UnitType="UNIT_BUILDER"/>
+    </Improvement_ValidBuildUnits>
+
+    <Improvement_ValidAdjacentDistricts>
+        <Row ImprovementType="IMPROVEMENT_XUANWU_GATE" DistrictType="DISTRICT_CITY_CENTER"/>
+    </Improvement_ValidAdjacentDistricts>
+
+    <Improvement_ValidTerrains>
+        <Row ImprovementType="IMPROVEMENT_XUANWU_GATE" TerrainType="TERRAIN_GRASS"/>
+        <Row ImprovementType="IMPROVEMENT_XUANWU_GATE" TerrainType="TERRAIN_PLAINS"/>
+        <Row ImprovementType="IMPROVEMENT_XUANWU_GATE" TerrainType="TERRAIN_GRASS_HILLS"/>
+        <Row ImprovementType="IMPROVEMENT_XUANWU_GATE" TerrainType="TERRAIN_PLAINS_HILLS"/>
+    </Improvement_ValidTerrains>
+
+    <Improvement_YieldChanges>
+        <Row ImprovementType="IMPROVEMENT_XUANWU_GATE" YieldType="YIELD_CULTURE" YieldChange="2"/>
+    </Improvement_YieldChanges>
 
     <!--
         贞观之治说明：

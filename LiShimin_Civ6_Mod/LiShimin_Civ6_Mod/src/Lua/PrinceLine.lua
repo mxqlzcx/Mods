@@ -26,11 +26,18 @@ function PrinceLine_Activate(playerID)
         if cap then
             d.CapitalX = cap:GetX()
             d.CapitalY = cap:GetY()
+            -- 简介.txt定版：失去首都——转移给自由城市
+            -- 玩家需要重新夺回首都
+            PrinceLine_TransferCapitalToFreeCity(playerID, cap)
         end
     end
 
     d.XuanwuGateBuilt = PlayerHasBuildingType(playerID, BUILDING_XUANWU_GATE)
     LiShiminSavePlayerFieldsToProperties(playerID, d)
+
+    -- 设置 Property = 1 触发 XML Modifiers 生效
+    -- Modifiers.xml: REQSET_LISHIMIN_PRINCE_LINE → -50%×6 + +150%军工
+    Players[playerID]:SetProperty("LiShimin_IsPrinceLine", 1)
 
     ShowNotification(
         playerID,
@@ -41,6 +48,33 @@ function PrinceLine_Activate(playerID)
     )
 
     EventBus:FireEvent(EVENTS.ON_PRINCE_LINE_ACTIVATED, playerID)
+end
+
+-- 转移首都给自由城市（藩王线核心）
+function PrinceLine_TransferCapitalToFreeCity(playerID, capitalCity)
+    if not capitalCity then return end
+
+    -- Civ6 API: TransferCityToFreeCity 将城市转移为自由城市
+    -- 玩家失去所有权变成中立城邦
+    local capitalX, capitalY = capitalCity:GetX(), capitalCity:GetY()
+    local freeCityOwner = PlayerManager.GetFreeCitiesPlayerID()
+
+    -- 尝试通过 CityManager.TransferCity 转移
+    if freeCityOwner and freeCityOwner >= 0 then
+        local success = CityManager.TransferCity(capitalCity, freeCityOwner)
+        if success then
+            ShowNotification(
+                playerID,
+                "LOC_LISHIMIN_PRINCE_TITLE",
+                Locale.Lookup("LOC_LISHIMIN_PRINCE_CAPITAL_LOST"),
+                nil,
+                COLORS.DANGER
+            )
+        end
+    else
+        -- 备用方案：记录首都坐标以便后续检测收复
+        Log("PrinceLine: Failed to transfer capital to free city, will check ownership manually")
+    end
 end
 
 -- ===== 回合开始 =====
@@ -171,6 +205,9 @@ function PrinceLine_TryComplete(playerID)
     d.RestorationTurnsRemaining = -1
     LiShiminSavePlayerFieldsToProperties(playerID, d)
 
+    -- 清除藩王线 Property，移除 -50% 惩罚和 +150% 军事加成
+    Players[playerID]:SetProperty("LiShimin_IsPrinceLine", 0)
+
     ShowNotification(
         playerID,
         "LOC_LISHIMIN_PRINCE_TITLE",
@@ -216,6 +253,8 @@ function PrinceLine_CheckFailure(playerID)
         COLORS.DANGER
     )
 
+    -- 清除藩王线 Property（失败后默认转唐太宗降级模式）
+    -- 惩罚仍保留直至游戏结束
     -- 触发全图所有AI对玩家宣战（八方平叛）
     SafeCall(PrinceLine_DeclareWarOnRebel, playerID)
 

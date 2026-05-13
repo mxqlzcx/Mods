@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Context>
 	<LuaContext FileName="LiShiminPresentation" ID="LiShiminPresentation" Hidden="1"/>
+
+	<!-- 玄武门之变剧情图片：李建成被俘获时全屏弹出 -->
+	<!-- 图片源由 LiShiminPresentation.lua 的 CORONATION_KILL_IMAGE 变量控制 -->
+	<!-- 默认隐藏，3 秒后自动淡出 -->
+	<Container ID="CoronationKillContainer" Hidden="1" Size="parent,parent" ConsumeAllMouse="1">
+		<Box Color="0,0,0,200" Size="parent,parent"/>
+		<Image ID="CoronationKillImage" Anchor="C,C" Size="auto,auto" Offset="0,-40"
+			  Texture="Coronation_Kill.dds" />  <!-- ← 丢图片后替换文件名 -->
+		<Label ID="CoronationKillCaption" Anchor="C,B" Offset="0,80" String="LOC_LISHIMIN_LI_JIANCHENG_KILLED"
+			   Style="FontNormal28" Color0="255,215,0,255" />  <!-- 金色标题 -->
+	</Container>
 </Context>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameData>
+    <!-- ============================================================
+         LiShimin_Modifiers.xml
+         把 config/balance.lua 的设计意图翻译成 Civ6 引擎认可的 Modifier。
+         采用「TraitModifier + OwnerRequirementSetId + Property」动态开关模式：
+           - Modifier 始终挂载在领袖特性 TRAIT_LEADER_LI_SHIMIN 上
+           - 通过 REQUIREMENT_PLAYER_PROPERTY_MATCHES 检查 Player Property
+           - Lua 在进入/退出藩王线时 SetProperty("LiShimin_IsPrinceLine", 1/0)
+           - 效果自动在 Rome was not built in a day™ 切换
+         ===========================================================-->
+
+    <!-- ===== Type 注册 ===== -->
+    <Types>
+        <Row Type="MODIFIER_LISHIMIN_PRINCE_SCIENCE_PENALTY" Kind="KIND_MODIFIER"/>
+        <Row Type="MODIFIER_LISHIMIN_PRINCE_CULTURE_PENALTY" Kind="KIND_MODIFIER"/>
+        <Row Type="MODIFIER_LISHIMIN_PRINCE_FOOD_PENALTY" Kind="KIND_MODIFIER"/>
+        <Row Type="MODIFIER_LISHIMIN_PRINCE_GOLD_PENALTY" Kind="KIND_MODIFIER"/>
+        <Row Type="MODIFIER_LISHIMIN_PRINCE_FAITH_PENALTY" Kind="KIND_MODIFIER"/>
+        <Row Type="MODIFIER_LISHIMIN_PRINCE_PRODUCTION_PENALTY" Kind="KIND_MODIFIER"/>
+        <Row Type="MODIFIER_LISHIMIN_PRINCE_MILITARY_BOOST" Kind="KIND_MODIFIER"/>
+        <Row Type="REQ_LISHIMIN_IS_PRINCE_LINE" Kind="KIND_REQUIREMENT"/>
+        <Row Type="REQSET_LISHIMIN_PRINCE_LINE" Kind="KIND_REQUIREMENT_SET"/>
+        <Row Type="MODIFIER_LISHIMIN_TIANCE_AURA" Kind="KIND_MODIFIER"/>
+
+    </Types>
+
+    <!-- ===== 藩王线惩罚/增益 Modifiers 挂载到领袖特性 ===== -->
+    <TraitModifiers>
+        <Row TraitType="TRAIT_LEADER_LI_SHIMIN" ModifierId="MODIFIER_LISHIMIN_PRINCE_SCIENCE_PENALTY"/>
+        <Row TraitType="TRAIT_LEADER_LI_SHIMIN" ModifierId="MODIFIER_LISHIMIN_PRINCE_CULTURE_PENALTY"/>
+        <Row TraitType="TRAIT_LEADER_LI_SHIMIN" ModifierId="MODIFIER_LISHIMIN_PRINCE_FOOD_PENALTY"/>
+        <Row TraitType="TRAIT_LEADER_LI_SHIMIN" ModifierId="MODIFIER_LISHIMIN_PRINCE_GOLD_PENALTY"/>
+        <Row TraitType="TRAIT_LEADER_LI_SHIMIN" ModifierId="MODIFIER_LISHIMIN_PRINCE_FAITH_PENALTY"/>
+        <Row TraitType="TRAIT_LEADER_LI_SHIMIN" ModifierId="MODIFIER_LISHIMIN_PRINCE_PRODUCTION_PENALTY"/>
+        <Row TraitType="TRAIT_LEADER_LI_SHIMIN" ModifierId="MODIFIER_LISHIMIN_PRINCE_MILITARY_BOOST"/>
+    </TraitModifiers>
+
+    <!-- ===== Modifier 定义 ===== -->
+    <Modifiers>
+        <!-- 藩王线：科技 -50% -->
+        <Row ModifierId="MODIFIER_LISHIMIN_PRINCE_SCIENCE_PENALTY"
+             ModifierType="MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_MODIFIER"
+             OwnerRequirementSetId="REQSET_LISHIMIN_PRINCE_LINE"/>
+        <!-- 藩王线：文化 -50% -->
+        <Row ModifierId="MODIFIER_LISHIMIN_PRINCE_CULTURE_PENALTY"
+             ModifierType="MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_MODIFIER"
+             OwnerRequirementSetId="REQSET_LISHIMIN_PRINCE_LINE"/>
+        <!-- 藩王线：粮食 -50% -->
+        <Row ModifierId="MODIFIER_LISHIMIN_PRINCE_FOOD_PENALTY"
+             ModifierType="MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_MODIFIER"
+             OwnerRequirementSetId="REQSET_LISHIMIN_PRINCE_LINE"/>
+        <!-- 藩王线：金币 -50% -->
+        <Row ModifierId="MODIFIER_LISHIMIN_PRINCE_GOLD_PENALTY"
+             ModifierType="MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_MODIFIER"
+             OwnerRequirementSetId="REQSET_LISHIMIN_PRINCE_LINE"/>
+        <!-- 藩王线：信仰 -50% -->
+        <Row ModifierId="MODIFIER_LISHIMIN_PRINCE_FAITH_PENALTY"
+             ModifierType="MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_MODIFIER"
+             OwnerRequirementSetId="REQSET_LISHIMIN_PRINCE_LINE"/>
+        <!-- 藩王线：生产力 -50% -->
+        <Row ModifierId="MODIFIER_LISHIMIN_PRINCE_PRODUCTION_PENALTY"
+             ModifierType="MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_MODIFIER"
+             OwnerRequirementSetId="REQSET_LISHIMIN_PRINCE_LINE"/>
+        <!-- 藩王线：军事单位 +150% 生产力 -->
+        <Row ModifierId="MODIFIER_LISHIMIN_PRINCE_MILITARY_BOOST"
+             ModifierType="MODIFIER_PLAYER_UNITS_ADJUST_UNIT_PRODUCTION"
+             OwnerRequirementSetId="REQSET_LISHIMIN_PRINCE_LINE"/>
+    </Modifiers>
+
+    <!-- ===== Modifier 参数 ===== -->
+    <ModifierArguments>
+        <!-- 科技 -50% -->
+        <Row ModifierId="MODIFIER_LISHIMIN_PRINCE_SCIENCE_PENALTY" Name="YieldType" Value="YIELD_SCIENCE"/>
+        <Row ModifierId="MODIFIER_LISHIMIN_PRINCE_SCIENCE_PENALTY" Name="Amount" Value="-50"/>
+        <!-- 文化 -50% -->
+        <Row ModifierId="MODIFIER_LISHIMIN_PRINCE_CULTURE_PENALTY" Name="YieldType" Value="YIELD_CULTURE"/>
+        <Row ModifierId="MODIFIER_LISHIMIN_PRINCE_CULTURE_PENALTY" Name="Amount" Value="-50"/>
+        <!-- 粮食 -50% -->
+        <Row ModifierId="MODIFIER_LISHIMIN_PRINCE_FOOD_PENALTY" Name="YieldType" Value="YIELD_FOOD"/>
+        <Row ModifierId="MODIFIER_LISHIMIN_PRINCE_FOOD_PENALTY" Name="Amount" Value="-50"/>
+        <!-- 金币 -50% -->
+        <Row ModifierId="MODIFIER_LISHIMIN_PRINCE_GOLD_PENALTY" Name="YieldType" Value="YIELD_GOLD"/>
+        <Row ModifierId="MODIFIER_LISHIMIN_PRINCE_GOLD_PENALTY" Name="Amount" Value="-50"/>
+        <!-- 信仰 -50% -->
+        <Row ModifierId="MODIFIER_LISHIMIN_PRINCE_FAITH_PENALTY" Name="YieldType" Value="YIELD_FAITH"/>
+        <Row ModifierId="MODIFIER_LISHIMIN_PRINCE_FAITH_PENALTY" Name="Amount" Value="-50"/>
+        <!-- 生产力 -50% -->
+        <Row ModifierId="MODIFIER_LISHIMIN_PRINCE_PRODUCTION_PENALTY" Name="YieldType" Value="YIELD_PRODUCTION"/>
+        <Row ModifierId="MODIFIER_LISHIMIN_PRINCE_PRODUCTION_PENALTY" Name="Amount" Value="-50"/>
+        <!-- 军事建造 +150% -->
+        <Row ModifierId="MODIFIER_LISHIMIN_PRINCE_MILITARY_BOOST" Name="Amount" Value="150"/>
+    </ModifierArguments>
+
+    <!-- ===== 条件设置：检测是否处于藩王线状态 ===== -->
+    <RequirementSets>
+        <Row RequirementSetId="REQSET_LISHIMIN_PRINCE_LINE" RequirementSetType="REQUIREMENTSET_TEST_ALL"/>
+    </RequirementSets>
+
+    <RequirementSetRequirements>
+        <Row RequirementSetId="REQSET_LISHIMIN_PRINCE_LINE" RequirementId="REQ_LISHIMIN_IS_PRINCE_LINE"/>
+    </RequirementSetRequirements>
+
+    <!-- Property 检查：Lua 设置 player:SetProperty("LiShimin_IsPrinceLine", 1) 时为藩王线 -->
+    <!-- 非藩王线时 Property 不存在或为 0，Modifier 不会生效 -->
+    <Requirements>
+        <Row RequirementId="REQ_LISHIMIN_IS_PRINCE_LINE" RequirementType="REQUIREMENT_PLAYER_PROPERTY_MATCHES"/>
+    </Requirements>
+
+    <RequirementArguments>
+        <Row RequirementId="REQ_LISHIMIN_IS_PRINCE_LINE" Name="PropertyName" Value="LiShimin_IsPrinceLine"/>
+        <Row RequirementId="REQ_LISHIMIN_IS_PRINCE_LINE" Name="PropertyValue" Value="1"/>
+    </RequirementArguments>
+
+    <!--
+        玄武门之变 v3.0：李建成为 Civilian 单位，不涉及战斗。
+        天策上将移动到李建成格子上触发俘获 → UnitRemovedFromMap 事件 → 登基。
+        不再需要任何 Combat Modifier。
+    -->
+
+</GameData>

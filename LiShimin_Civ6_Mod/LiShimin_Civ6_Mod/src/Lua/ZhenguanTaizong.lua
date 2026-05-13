@@ -137,33 +137,14 @@ end
 
 -- 实际发放使者
 function WorldReception_GrantEnvoy(playerID)
-    -- 寻找玩家还不是宗主国的城邦
-    local candidates = {}
-    for csID = GameDefines.MAX_MAJOR_CIVS, GameDefines.MAX_CIVS - 1 do
-        local csPlayer = Players[csID]
-        if csPlayer and csPlayer:IsAlive() then
-            if not csPlayer:IsSuzerain(playerID) then
-                table.insert(candidates, csID)
-            end
-        end
-    end
+    local player = Players[playerID]
+    if not player then return false end
 
-    if #candidates == 0 then
-        return false
-    end
-
-    -- 随机选一个发放
-    local targetID = candidates[math.random(#candidates)]
-
-    local tokenInfo = GameInfo.InfluenceTokens["INFLUENCE_TOKEN_TYPE_ENVOY"]
-    if tokenInfo then
-        InfluenceManager.ChangeStat(
-            playerID,
-            targetID,
-            tokenInfo.Hash,
-            1,
-            "LiShimin_WorldReception"
-        )
+    -- Civ6 标准 API：增加玩家可分配的使者令牌（ChangeTokensToGive）
+    -- 玩家在下一回合手动分配给任意城邦
+    local influence = player:GetInfluence()
+    if influence then
+        influence:ChangeTokensToGive(1)
         return true
     end
 

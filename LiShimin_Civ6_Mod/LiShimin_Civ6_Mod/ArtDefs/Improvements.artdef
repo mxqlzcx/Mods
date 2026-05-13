@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<AssetObjects..ArtDefSet>
+    <m_Version>
+        <major>4</major>
+        <minor>0</minor>
+        <build>252</build>
+        <revision>104</revision>
+    </m_Version>
+    <m_TemplateName text="Improvements"/>
+    <m_RootCollections>
+        <Element>
+            <m_CollectionName text="Improvement"/>
+            <m_ReplaceMergedCollectionElements>false</m_ReplaceMergedCollectionElements>
+            <Element>
+                <m_Fields>
+                    <m_Values/>
+                </m_Fields>
+                <m_ChildCollections>
+                    <Element>
+                        <m_CollectionName text="Landmark"/>
+                        <m_ReplaceMergedCollectionElements>false</m_ReplaceMergedCollectionElements>
+                        <Element>
+                            <m_Fields>
+                                <m_Values>
+                                    <Element class="AssetObjects..ArtDefReferenceValue">
+                                        <m_ElementName text="LM_FORT"/>
+                                        <m_RootCollectionName text="Landmarks"/>
+                                        <m_ArtDefPath text="Landmarks.artdef"/>
+                                        <m_CollectionIsLocked>true</m_CollectionIsLocked>
+                                        <m_TemplateName text="Landmarks"/>
+                                        <m_ParamName text="Xref"/>
+                                    </Element>
+                                </m_Values>
+                            </m_Fields>
+                        </Element>
+                    </Element>
+                </m_ChildCollections>
+                <m_Name text="IMPROVEMENT_XUANWU_GATE"/>
+            </Element>
+        </Element>
+    </m_RootCollections>
+</AssetObjects..ArtDefSet>

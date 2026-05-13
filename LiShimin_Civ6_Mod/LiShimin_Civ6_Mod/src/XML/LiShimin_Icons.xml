@@ -12,5 +12,6 @@
   3. 然后在此文件重新添加 IconDefinitions
 -->
 <GameData>
-    <!-- 无自定义图标定义，使用游戏默认图标 -->
+    <!-- 玄武门改良设施图标（暂代用游戏原版图集） -->
+    <Row Name="ICON_IMPROVEMENT_XUANWU_GATE" Atlas="ICON_ATLAS_DEFAULT" Index="0"/>
 </GameData>

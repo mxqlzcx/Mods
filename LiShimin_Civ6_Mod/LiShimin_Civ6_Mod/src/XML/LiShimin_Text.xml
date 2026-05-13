@@ -39,13 +39,13 @@
 
         <Row Tag="LOC_UNIT_LI_JIANCHENG_NAME" Language="zh_Hans_CN"><Text>李建成</Text></Row>
         <Row Tag="LOC_UNIT_LI_JIANCHENG_DESC" Language="zh_Hans_CN">
-            <Text>玄武门仪式目标。0移动力，普通单位无法造成伤害，仅可被天策上将的秦王弓射杀。诛杀李建成，完成权力交接。</Text>
+            <Text>玄武门仪式目标——太子李建成。0移动力，仅可被天策上将俘获击杀。操控天策上将移动至其所在格子，完成玄武门之变。</Text>
         </Row>
 
         <!-- ===== 建筑 ===== -->
         <Row Tag="LOC_BUILDING_XUANWU_GATE_NAME" Language="zh_Hans_CN"><Text>玄武门</Text></Row>
         <Row Tag="LOC_BUILDING_XUANWU_GATE_DESC" Language="zh_Hans_CN">
-            <Text>李世民登基仪式专属建筑。建造后立即触发玄武门之变：召唤李建成于玄武门，用天策上将将其射杀，完成权力交接。+2文化。</Text>
+            <Text>李世民登基仪式专属建筑。建造后立即触发玄武门之变：李建成出现于玄武门旁。操控天策上将移动至其格子，完成权力交接。+2文化。</Text>
         </Row>
 
         <!-- ===== 天策府十八学士 ===== -->
@@ -63,8 +63,10 @@
         <Row Tag="LOC_LISHIMIN_XUANWU_BUILT" Language="zh_Hans_CN"><Text>玄武门已建成！李建成出现于玄武门——操控天策上将完成致命一击，完成登基仪式。</Text></Row>
         <Row Tag="LOC_LISHIMIN_ERA_CORONATION_PATH" Language="zh_Hans_CN"><Text>进入中世纪：征服数达标！你走「登基线」。建造玄武门并完成仪式，即可转为唐太宗形态。</Text></Row>
         <Row Tag="LOC_LISHIMIN_CORONATION_SUCCESS" Language="zh_Hans_CN"><Text>登基完成！你已诛杀李建成，正式成为唐太宗。开启贞观之治！</Text></Row>
-        <Row Tag="LOC_LISHIMIN_LI_JIANCHENG_SPAWNED" Language="zh_Hans_CN"><Text>李建成现身玄武门！唯有天策上将的秦王弓可将其射杀——快去完成权力交接！</Text></Row>
+        <Row Tag="LOC_LISHIMIN_LI_JIANCHENG_SPAWNED" Language="zh_Hans_CN"><Text>李建成现身玄武门！操控天策上将移动至其所在格子，完成玄武门之变！</Text></Row>
         <Row Tag="LOC_LISHIMIN_LI_JIANCHENG_KILLED" Language="zh_Hans_CN"><Text>李建成已被诛杀！权力交接完成，天策上将功成身退——唐太宗降临！</Text></Row>
+        <Row Tag="LOC_LISHIMIN_LI_JIANCHENG_CAPTURED_WRONG" Language="zh_Hans_CN"><Text>非天策上将单位无法处决李建成！请使用天策上将移动至李建成所在格子完成权力交接。</Text></Row>
+        <Row Tag="LOC_LISHIMIN_LI_JIANCHENG_WRONG_KILLER" Language="zh_Hans_CN"><Text>只有天策上将可以处决李建成！请使用天策上将完成最后一击。</Text></Row>
 
         <!-- ===== 藩王线 ===== -->
         <Row Tag="LOC_LISHIMIN_ERA_PRINCE_PATH" Language="zh_Hans_CN"><Text>进入中世纪：征服不足！你走「藩王线」。限时30回合建造玄武门、夺回首都、保全天策上将并完成仪式，否则失败。</Text></Row>
@@ -72,6 +74,7 @@
         <Row Tag="LOC_LISHIMIN_PRINCE_START" Language="zh_Hans_CN"><Text>成则为王，败则为寇。你已无正统登基资格，唯有破釜沉舟，以武力夺回天下！30回合内完成复辟目标。</Text></Row>
         <Row Tag="LOC_LISHIMIN_PRINCE_COUNTDOWN" Language="zh_Hans_CN"><Text>复辟倒计时：剩余{1}回合。请关注玄武门修筑、首都收复与天策上将存活状态。</Text></Row>
         <Row Tag="LOC_LISHIMIN_PRINCE_CONQUEST" Language="zh_Hans_CN"><Text>已征服{1}/{2}城。继续扩大战果！</Text></Row>
+        <Row Tag="LOC_LISHIMIN_PRINCE_CAPITAL_LOST" Language="zh_Hans_CN"><Text>首都已失守！必须重新攻占才能完成复辟大业。</Text></Row>
         <Row Tag="LOC_LISHIMIN_RESTORATION_SUCCESS" Language="zh_Hans_CN"><Text>复辟成功！你重登大位，开启唐太宗形态。贞观盛世，再续辉煌！</Text></Row>
         <Row Tag="LOC_LISHIMIN_RESTORATION_FAILED" Language="zh_Hans_CN"><Text>复辟失败！30回合已过，反叛被镇压。</Text></Row>
         <Row Tag="LOC_LISHIMIN_RESTORATION_FAILED_WAR" Language="zh_Hans_CN"><Text>复辟失败！全天下视你为叛军，所有势力将联合围剿——「八方平叛」降临！</Text></Row>
@@ -80,6 +83,10 @@
         <!-- ===== 唐太宗：贞观之治 ===== -->
         <Row Tag="LOC_LISHIMIN_ZHENGUAN_TITLE" Language="zh_Hans_CN"><Text>贞观之治</Text></Row>
         <Row Tag="LOC_LISHIMIN_ZHENGUAN_STATUS" Language="zh_Hans_CN"><Text>管辖{1}座城市，全域产出+{2}%</Text></Row>
+
+        <!-- ===== 改良设施：玄武门 ===== -->
+        <Row Tag="LOC_IMPROVEMENT_XUANWU_GATE_NAME" Language="zh_Hans_CN"><Text>玄武门</Text></Row>
+        <Row Tag="LOC_IMPROVEMENT_XUANWU_GATE_DESC" Language="zh_Hans_CN"><Text>李世民专属改良设施。只能由建造者修建，建成后在此处彻底终结李建成，方可登基称帝开启贞观之治。</Text></Row>
 
         <!-- ===== 万国来朝 ===== -->
         <Row Tag="LOC_LISHIMIN_WORLD_TITLE" Language="zh_Hans_CN"><Text>万国来朝</Text></Row>

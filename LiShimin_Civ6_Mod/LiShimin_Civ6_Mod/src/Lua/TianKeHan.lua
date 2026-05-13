@@ -369,29 +369,19 @@ function TianKeHan_GrantFreeEnvoy(playerID)
 
     local targetID = candidates[1].csID
 
-    -- 通过 InfluenceManager 发放使者
-    -- Civ6 API: SendIncident(playerID, targetPlayerID, incidentType)
-    -- 发送一个 ENVOY incident 以自动授予使者
-    local infResult = InfluenceManager.SendIncident(
-        playerID,     -- 发起玩家
-        targetID,     -- 目标城邦
-        0             -- incident参数（ENVOY类型通常不需要参数）
-    )
-
-    if infResult == 0 or infResult == true then
-        return true
+    -- Civ6 标准 API：增加玩家可分配的使者令牌
+    -- ChangeTokensToGive(1) = 增加 1 个未分配的使者到池子
+    -- 玩家在下一回合手动分配给任意城邦
+    local player = Players[playerID]
+    if player then
+        local influence = player:GetInfluence()
+        if influence then
+            influence:ChangeTokensToGive(1)
+            return true
+        end
     end
 
-    -- 备用方案：使用 ChangeStat
-    local statResult = InfluenceManager.ChangeStat(
-        playerID,
-        targetID,
-        GameInfo.InfluenceTokens["INFLUENCE_TOKEN_TYPE_ENVOY"].Hash,
-        1,
-        "LiShimin_WorldReception"
-    )
-
-    return (statResult ~= nil)
+    return false
 end
 
 -- 统计玩家在某城邦的使者数量
@@ -532,7 +522,7 @@ end
 function TianKeHan_SaveState(playerID)
     if not playerID then return end
     local player = Players[playerID]
-    if not player or not PlayerSupportsModProperties(player) then return end
+    if not player then return end
 
     local state = tianziYanuState[playerID]
     local tianziActive = state and state.active or false
@@ -545,7 +535,7 @@ end
 
 function TianKeHan_LoadState(playerID)
     local player = Players[playerID]
-    if not player or not PlayerSupportsModProperties(player) then return end
+    if not player then return end
 
     local active = player:GetProperty("LiShimin_TianziYanuActive")
     local turns = player:GetProperty("LiShimin_TianziYanuTurns")
