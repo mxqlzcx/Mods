@@ -1,8 +1,8 @@
 -- 工具函数和日志系统
 -- 提供模组中使用的通用工具函数和统一的日志记录功能
 
--- 调试模式开关（生产环境设为false）
-DEBUG_MODE = false
+-- 调试模式开关（排查阶段设为true，稳定后改回false）
+DEBUG_MODE = true
 
 -- 日志记录函数
 function Log(message, level)
@@ -329,36 +329,6 @@ function GetCurrentBalance()
     return nil
 end
 
-return {
-    DEBUG_MODE = DEBUG_MODE,
-    Log = Log,
-    LogError = LogError,
-    LogWarning = LogWarning,
-    LogDebug = LogDebug,
-    SafeCall = SafeCall,
-    IsNilOrEmpty = IsNilOrEmpty,
-    DeepCopy = DeepCopy,
-    GetCapitalCity = GetCapitalCity,
-    GetPlayerCityCount = GetPlayerCityCount,
-    HasRequiredCities = HasRequiredCities,
-    GetUnitPlot = GetUnitPlot,
-    ArePlotsAdjacent = ArePlotsAdjacent,
-    GetUnitsAroundPlot = GetUnitsAroundPlot,
-    ShowNotification = ShowNotification,
-    LiShiminNotifyStoryMoment = LiShiminNotifyStoryMoment,
-    IsTianceGeneral = IsTianceGeneral,
-    IsLiJiancheng = IsLiJiancheng,
-    GetPlayerLeaderState = GetPlayerLeaderState,
-    SetPlayerLeaderState = SetPlayerLeaderState,
-    GetCurrentBalance = GetCurrentBalance,
-    GetUnitTypeNameFromUnit = GetUnitTypeNameFromUnit,
-    IsLiShiminLeaderPlayer = IsLiShiminLeaderPlayer,
-    PlayerSupportsModProperties = PlayerSupportsModProperties,
-    PlayerHasBuildingType = PlayerHasBuildingType,
-    PlayerHasImprovementType = PlayerHasImprovementType,
-    PlotOwnedByMajor = PlotOwnedByMajor,
-    LiShiminLoadPlayerFieldsFromProperties = LiShiminLoadPlayerFieldsFromProperties,
-    LiShiminSavePlayerFieldsToProperties = LiShiminSavePlayerFieldsToProperties,
-    LiShiminMod_CreateDefaultPlayerData = LiShiminMod_CreateDefaultPlayerData,
-    LiShiminMod_GetOrInitPlayer = LiShiminMod_GetOrInitPlayer
-}
+-- Utils.lua: 所有函数作为普通全局函数定义（不加 local，不加 _G.），Civ6 include() 机制可跨文件共享
+-- 关键：不加 local，不加 _G.（沙盒中 _G 为 nil），去掉 return 语句即可共享
+-- 注意：return 语句会导致 Civ6 脚本加载器行为异常（已移除）

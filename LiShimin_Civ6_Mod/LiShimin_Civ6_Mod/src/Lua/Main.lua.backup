@@ -1,0 +1,284 @@
+-- ===== 防御性依赖检查 =====
+if not LogDebug then
+    function LogDebug(msg) print("[LiShiminMod][DBG] " .. tostring(msg)) end
+end
+if not LogWarning then
+    function LogWarning(msg) print("[LiShiminMod][WARN] " .. tostring(msg)) end
+end
+if not LogError then
+    function LogError(msg) print("[LiShiminMod][ERR] " .. tostring(msg)) end
+end
+if not SafeCall then
+    function SafeCall(func, ...)
+        local ok, result = pcall(func, ...)
+        if not ok then print("[LiShiminMod][ERR] SafeCall: " .. tostring(result)) end
+        return result
+    end
+end
+if not IsNilOrEmpty then
+    function IsNilOrEmpty(v) return v == nil or v == "" end
+end
+-- ============================================================
+-- 模组入口：注册事件、驱动天策上将/登基线/藩王线/唐太宗状态机
+-- 同步更新自 简介.txt（定版）
+-- ============================================================
+
+LiShiminMod = LiShiminMod or {}
+LiShiminMod.Players = LiShiminMod.Players or {}
+LiShiminMod.Version = MOD_VERSION or "2.0.0"
+
+-- ===== 游戏生命周期 =====
+
+function LiShiminMod_OnGameStart()
+    for pid = 0, GameDefines.MAX_MAJOR_CIVS - 1 do
+        LiShiminMod.Players[pid] = nil
+        if IsLiShiminLeaderPlayer(pid) then
+            local d = LiShiminMod_GetOrInitPlayer(pid)
+            Log("GameStart: LiShimin player found, pid=" .. tostring(pid))
+            -- 在 GameStart 直接尝试生成天策上将
+            if d and not d.TianceGeneralSpawned then
+                d.TianceGeneralSpawned = true
+                LiShiminSavePlayerFieldsToProperties(pid, d)
+                SpawnTianceGeneral(pid)
+            end
+            ShowNotification(
+                pid,
+                "LOC_LISHIMIN_WELCOME_TITLE",
+                "LOC_LISHIMIN_WELCOME_BODY",
+                nil,
+                COLORS.PRIMARY
+            )
+        end
+    end
+end
+
+function LiShiminMod_OnLoadGame()
+    for pid = 0, GameDefines.MAX_MAJOR_CIVS - 1 do
+        LiShiminMod.Players[pid] = nil
+        if IsLiShiminLeaderPlayer(pid) then
+            LiShiminMod_GetOrInitPlayer(pid)
+            if TianKeHan_LoadState then
+                TianKeHan_LoadState(pid)
+            end
+        end
+    end
+end
+
+-- ===== 每回合事件 =====
+
+function LiShiminMod_OnTurnBegin(playerID)
+    if not IsLiShiminLeaderPlayer(playerID) then
+        return
+    end
+    local d = LiShiminMod_GetOrInitPlayer(playerID)
+    if not d then return end
+
+    -- 最保底方案：如果天策上将还没送出去，强制送
+    if not d.TianceGeneralSpawned then
+        d.TianceGeneralSpawned = true
+        LiShiminSavePlayerFieldsToProperties(playerID, d)
+        Log("TurnBegin: safety-net spawning Tiance General for pid=" .. tostring(playerID))
+        SpawnTianceGeneral(playerID)
+    end
+
+    Coronation_OnTurnBegin(playerID)
+    PrinceLine_OnTurnBegin(playerID)
+end
+
+function LiShiminMod_OnTurnEnd(playerID)
+    if not IsLiShiminLeaderPlayer(playerID) then
+        return
+    end
+    PrinceLine_OnTurnEnd(playerID)
+end
+
+-- ===== 时代变更 =====
+
+function LiShiminMod_OnEraChanged(playerID, newEra, oldEra)
+    if not IsLiShiminLeaderPlayer(playerID) then
+        return
+    end
+    local eraRow = GameInfo.Eras[newEra]
+    if not eraRow or eraRow.EraType ~= ERA_MEDIEVAL then
+        return
+    end
+    local d = LiShiminMod_GetOrInitPlayer(playerID)
+    if not d or d.MedievalResolved then
+        return
+    end
+    d.MedievalResolved = true
+    local n = d.CitiesConquered or 0
+    local need = CORONATION_MIN_CITIES_CONQUERED or 5
+    if n >= need then
+        d.LeaderState = LEADER_STATE.CORONATION
+        d.CoronationTurnsSinceGate = 0
+        if PlayerHasImprovementType(playerID, IMPROVEMENT_XUANWU_GATE) then
+            d.XuanwuGateBuilt = true
+        end
+        LiShiminSavePlayerFieldsToProperties(playerID, d)
+        ShowNotification(playerID, "LOC_LISHIMIN_NOTIFY_TITLE", "LOC_LISHIMIN_ERA_CORONATION_PATH", nil, COLORS.SECONDARY)
+        Coronation_TryComplete(playerID)
+    else
+        d.LeaderState = LEADER_STATE.PRINCE_LINE
+        LiShiminSavePlayerFieldsToProperties(playerID, d)
+        ShowNotification(playerID, "LOC_LISHIMIN_NOTIFY_TITLE", "LOC_LISHIMIN_ERA_PRINCE_PATH", nil, COLORS.WARNING)
+        PrinceLine_Activate(playerID)
+    end
+end
+
+-- ===== 城市被征服 =====
+
+function LiShiminMod_OnCityConquered(ownerID, city, conquerorID)
+    if not city then return end
+    if not IsLiShiminLeaderPlayer(conquerorID) then return end
+    local prev = Players[ownerID]
+    if prev and prev:IsBarbarian() then return end
+    local d = LiShiminMod_GetOrInitPlayer(conquerorID)
+    if not d then return end
+    if not d.MedievalResolved then
+        d.CitiesConquered = (d.CitiesConquered or 0) + 1
+        LiShiminSavePlayerFieldsToProperties(conquerorID, d)
+    end
+    PrinceLine_OnCityConquered(ownerID, city, conquerorID)
+end
+
+-- ===== 单位死亡 =====
+
+function LiShiminMod_OnUnitKilled(playerID, unit, unitsKilled)
+    if not unit then return end
+    if IsTianceGeneral(unit) and IsLiShiminLeaderPlayer(playerID) then
+        HandleTianceGeneralDeath(playerID)
+    end
+end
+
+-- ===== 建筑建成 =====
+
+function LiShiminMod_OnBuildingConstructed(playerID, city, buildingHash, plotID, isOriginalConstruction)
+end
+
+-- ===== 开局生成天策上将 =====
+-- 三重触发：GameStart > CityAddedToMap > TurnBegin，确保一定送出
+
+function SpawnTianceGeneral(playerID)
+    local player = Players[playerID]
+    if not player then
+        LogError("SpawnTianceGeneral: player nil for pid=" .. tostring(playerID))
+        return
+    end
+
+    -- 多种方式找出生点：首都 > 玩家单位位置 > 玩家起始坐标
+    local spawnPlot = nil
+    local source = "none"
+
+    -- 方法1：首都
+    local capital = GetCapitalCity(player)
+    if capital then
+        spawnPlot = Map.GetPlot(capital:GetX(), capital:GetY())
+        source = "capital"
+    end
+
+    -- 方法2：玩家第一个单位的坐标（开局通常是开拓者）
+    if not spawnPlot then
+        for unit in player:GetUnits():Members() do
+            local p = Map.GetPlot(unit:GetX(), unit:GetY())
+            if p then
+                spawnPlot = p
+                source = "unit"
+                break
+            end
+        end
+    end
+
+    -- 方法3：PlayerConfigurations 起始坐标
+    if not spawnPlot then
+        local cfg = PlayerConfigurations[playerID]
+        if cfg then
+            local sx = cfg:GetStartPlotX()
+            local sy = cfg:GetStartPlotY()
+            if sx and sy and sx >= 0 and sy >= 0 then
+                spawnPlot = Map.GetPlot(sx, sy)
+                source = "startpos"
+            end
+        end
+    end
+
+    if not spawnPlot then
+        LogError("SpawnTianceGeneral: no valid plot found for pid=" .. tostring(playerID))
+        return
+    end
+
+    -- 在出生点周围找一个非山地非水域的空地
+    local unitPlot = nil
+    for dx = -1, 1 do
+        for dy = -1, 1 do
+            if dx == 0 and dy == 0 then
+                -- skip center
+            else
+                local p = Map.GetPlot(spawnPlot:GetX() + dx, spawnPlot:GetY() + dy)
+                if p and not p:IsMountain() and not p:IsWater() then
+                    unitPlot = p
+                    break
+                end
+            end
+        end
+        if unitPlot then break end
+    end
+    if not unitPlot then
+        unitPlot = spawnPlot
+    end
+
+    local unitInfo = GameInfo.Units[UNIT_TIANCE_GENERAL]
+    if not unitInfo then
+        LogError("SpawnTianceGeneral: UNIT_TIANCE_GENERAL not found in GameInfo! Check XML.")
+        return
+    end
+
+    Log("SpawnTianceGeneral: spawning at (" .. unitPlot:GetX() .. "," .. unitPlot:GetY() .. ") via " .. source)
+    local unit = player:GetUnits():Create(unitInfo.Index, unitPlot:GetX(), unitPlot:GetY())
+    if unit then
+        Log("SpawnTianceGeneral: SUCCESS")
+        ShowNotification(playerID, "LOC_LISHIMIN_NOTIFY_TITLE", "LOC_LISHIMIN_TIANCE_SPAWNED", nil, COLORS.PRIMARY)
+    else
+        LogError("SpawnTianceGeneral: player:GetUnits():Create returned nil")
+    end
+end
+
+-- ===== 初始化 =====
+
+function LiShiminMod_Initialize()
+    RegisterGameEvents()
+    RegisterCustomEvents()
+
+    EventBus:RegisterListener(EVENTS.ON_GAME_START,         LiShiminMod_OnGameStart,         100)
+    EventBus:RegisterListener(EVENTS.ON_PLAYER_TURN_BEGIN,  LiShiminMod_OnTurnBegin,         90)
+    EventBus:RegisterListener(EVENTS.ON_PLAYER_TURN_END,    LiShiminMod_OnTurnEnd,           90)
+    EventBus:RegisterListener(EVENTS.ON_ERA_CHANGED,        LiShiminMod_OnEraChanged,        80)
+    EventBus:RegisterListener(EVENTS.ON_CITY_CONQUERED,    LiShiminMod_OnCityConquered,     80)
+    EventBus:RegisterListener(EVENTS.ON_UNIT_KILLED,        LiShiminMod_OnUnitKilled,        100)
+    EventBus:RegisterListener(EVENTS.ON_BUILDING_CONSTRUCTED, LiShiminMod_OnBuildingConstructed, 70)
+
+    -- 兜底2：建城时再试一次（CityAddedToMap 时 IsCapital 尚未标记，改用 CityInitialized）
+    Events.CityInitialized.Add(function(playerID, cityID)
+        if not IsLiShiminLeaderPlayer(playerID) then return end
+        local player = Players[playerID]
+        -- 如果这是玩家的第一座城，必然是开局首都
+        if player and player:GetCities():GetCount() == 1 then
+            local d = LiShiminMod_GetOrInitPlayer(playerID)
+            if d and not d.TianceGeneralSpawned then
+                d.TianceGeneralSpawned = true
+                LiShiminSavePlayerFieldsToProperties(playerID, d)
+                SpawnTianceGeneral(playerID)
+            end
+        end
+    end)
+
+    if Events.LoadGameViewStateDone then
+        Events.LoadGameViewStateDone.Add(function()
+            LiShiminMod_OnLoadGame()
+        end)
+    end
+
+    Log("LiShiminMod initialized --- " .. (MOD_VERSION_FULL or "v2.0.0") .. " (diagnosis build)")
+end
+
+LiShiminMod_Initialize()

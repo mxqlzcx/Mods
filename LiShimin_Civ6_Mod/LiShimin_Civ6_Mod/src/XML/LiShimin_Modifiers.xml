@@ -20,9 +20,36 @@
         <Row Type="MODIFIER_LISHIMIN_PRINCE_PRODUCTION_PENALTY" Kind="KIND_MODIFIER"/>
         <Row Type="MODIFIER_LISHIMIN_PRINCE_MILITARY_BOOST" Kind="KIND_MODIFIER"/>
         <Row Type="REQ_LISHIMIN_IS_PRINCE_LINE" Kind="KIND_REQUIREMENT"/>
-        <Row Type="REQSET_LISHIMIN_PRINCE_LINE" Kind="KIND_REQUIREMENT_SET"/>
+        <!-- RequirementSet 无需注册到 Types，直接引用 ID 即可 -->
         <Row Type="MODIFIER_LISHIMIN_TIANCE_AURA" Kind="KIND_MODIFIER"/>
 
+        <!-- ===== Talent Reserve: 18 Modifiers + 4 Requirements ===== -->
+        <!-- Tier 1: Yields -->
+        <Row Type="MODIFIER_TALENT_TIER_1_FOOD"       Kind="KIND_MODIFIER"/>
+        <Row Type="MODIFIER_TALENT_TIER_1_PRODUCTION" Kind="KIND_MODIFIER"/>
+        <Row Type="MODIFIER_TALENT_TIER_1_GOLD"      Kind="KIND_MODIFIER"/>
+        <Row Type="MODIFIER_TALENT_TIER_1_SCIENCE"   Kind="KIND_MODIFIER"/>
+        <Row Type="MODIFIER_TALENT_TIER_1_CULTURE"   Kind="KIND_MODIFIER"/>
+        <Row Type="MODIFIER_TALENT_TIER_1_FAITH"     Kind="KIND_MODIFIER"/>
+        <!-- Tier 2: Yields -->
+        <Row Type="MODIFIER_TALENT_TIER_2_FOOD"       Kind="KIND_MODIFIER"/>
+        <Row Type="MODIFIER_TALENT_TIER_2_PRODUCTION" Kind="KIND_MODIFIER"/>
+        <Row Type="MODIFIER_TALENT_TIER_2_GOLD"      Kind="KIND_MODIFIER"/>
+        <Row Type="MODIFIER_TALENT_TIER_2_SCIENCE"   Kind="KIND_MODIFIER"/>
+        <Row Type="MODIFIER_TALENT_TIER_2_CULTURE"   Kind="KIND_MODIFIER"/>
+        <Row Type="MODIFIER_TALENT_TIER_2_FAITH"     Kind="KIND_MODIFIER"/>
+        <!-- Tier 3: Yields -->
+        <Row Type="MODIFIER_TALENT_TIER_3_FOOD"       Kind="KIND_MODIFIER"/>
+        <Row Type="MODIFIER_TALENT_TIER_3_PRODUCTION" Kind="KIND_MODIFIER"/>
+        <Row Type="MODIFIER_TALENT_TIER_3_GOLD"      Kind="KIND_MODIFIER"/>
+        <Row Type="MODIFIER_TALENT_TIER_3_SCIENCE"   Kind="KIND_MODIFIER"/>
+        <Row Type="MODIFIER_TALENT_TIER_3_CULTURE"   Kind="KIND_MODIFIER"/>
+        <Row Type="MODIFIER_TALENT_TIER_3_FAITH"     Kind="KIND_MODIFIER"/>
+        <!-- Requirements -->
+        <Row Type="REQ_TALENT_CITY_PALACE"    Kind="KIND_REQUIREMENT"/>
+        <Row Type="REQ_TALENT_1" Kind="KIND_REQUIREMENT"/>
+        <Row Type="REQ_TALENT_2" Kind="KIND_REQUIREMENT"/>
+        <Row Type="REQ_TALENT_3" Kind="KIND_REQUIREMENT"/>
     </Types>
 
     <!-- ===== 藩王线惩罚/增益 Modifiers 挂载到领袖特性 ===== -->
@@ -34,6 +61,26 @@
         <Row TraitType="TRAIT_LEADER_LI_SHIMIN" ModifierId="MODIFIER_LISHIMIN_PRINCE_FAITH_PENALTY"/>
         <Row TraitType="TRAIT_LEADER_LI_SHIMIN" ModifierId="MODIFIER_LISHIMIN_PRINCE_PRODUCTION_PENALTY"/>
         <Row TraitType="TRAIT_LEADER_LI_SHIMIN" ModifierId="MODIFIER_LISHIMIN_PRINCE_MILITARY_BOOST"/>
+
+        <!-- ===== Talent Reserve: 18 Modifiers ===== -->
+        <Row TraitType="TRAIT_LEADER_LI_SHIMIN" ModifierId="MODIFIER_TALENT_TIER_1_FOOD"/>
+        <Row TraitType="TRAIT_LEADER_LI_SHIMIN" ModifierId="MODIFIER_TALENT_TIER_1_PRODUCTION"/>
+        <Row TraitType="TRAIT_LEADER_LI_SHIMIN" ModifierId="MODIFIER_TALENT_TIER_1_GOLD"/>
+        <Row TraitType="TRAIT_LEADER_LI_SHIMIN" ModifierId="MODIFIER_TALENT_TIER_1_SCIENCE"/>
+        <Row TraitType="TRAIT_LEADER_LI_SHIMIN" ModifierId="MODIFIER_TALENT_TIER_1_CULTURE"/>
+        <Row TraitType="TRAIT_LEADER_LI_SHIMIN" ModifierId="MODIFIER_TALENT_TIER_1_FAITH"/>
+        <Row TraitType="TRAIT_LEADER_LI_SHIMIN" ModifierId="MODIFIER_TALENT_TIER_2_FOOD"/>
+        <Row TraitType="TRAIT_LEADER_LI_SHIMIN" ModifierId="MODIFIER_TALENT_TIER_2_PRODUCTION"/>
+        <Row TraitType="TRAIT_LEADER_LI_SHIMIN" ModifierId="MODIFIER_TALENT_TIER_2_GOLD"/>
+        <Row TraitType="TRAIT_LEADER_LI_SHIMIN" ModifierId="MODIFIER_TALENT_TIER_2_SCIENCE"/>
+        <Row TraitType="TRAIT_LEADER_LI_SHIMIN" ModifierId="MODIFIER_TALENT_TIER_2_CULTURE"/>
+        <Row TraitType="TRAIT_LEADER_LI_SHIMIN" ModifierId="MODIFIER_TALENT_TIER_2_FAITH"/>
+        <Row TraitType="TRAIT_LEADER_LI_SHIMIN" ModifierId="MODIFIER_TALENT_TIER_3_FOOD"/>
+        <Row TraitType="TRAIT_LEADER_LI_SHIMIN" ModifierId="MODIFIER_TALENT_TIER_3_PRODUCTION"/>
+        <Row TraitType="TRAIT_LEADER_LI_SHIMIN" ModifierId="MODIFIER_TALENT_TIER_3_GOLD"/>
+        <Row TraitType="TRAIT_LEADER_LI_SHIMIN" ModifierId="MODIFIER_TALENT_TIER_3_SCIENCE"/>
+        <Row TraitType="TRAIT_LEADER_LI_SHIMIN" ModifierId="MODIFIER_TALENT_TIER_3_CULTURE"/>
+        <Row TraitType="TRAIT_LEADER_LI_SHIMIN" ModifierId="MODIFIER_TALENT_TIER_3_FAITH"/>
     </TraitModifiers>
 
     <!-- ===== Modifier 定义 ===== -->
@@ -66,6 +113,28 @@
         <Row ModifierId="MODIFIER_LISHIMIN_PRINCE_MILITARY_BOOST"
              ModifierType="MODIFIER_PLAYER_CITIES_ADJUST_MILITARY_UNITS_PRODUCTION"
              OwnerRequirementSetId="REQSET_LISHIMIN_PRINCE_LINE"/>
+
+        <!-- ===== Talent Reserve: Tier 1 (6 yields) ===== -->
+        <Row ModifierId="MODIFIER_TALENT_TIER_1_FOOD"      ModifierType="MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_CHANGE" SubjectRequirementSetId="REQSET_TALENT_CITY" OwnerRequirementSetId="REQSET_TALENT_1_PLAYER"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_1_PRODUCTION" ModifierType="MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_CHANGE" SubjectRequirementSetId="REQSET_TALENT_CITY" OwnerRequirementSetId="REQSET_TALENT_1_PLAYER"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_1_GOLD"      ModifierType="MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_CHANGE" SubjectRequirementSetId="REQSET_TALENT_CITY" OwnerRequirementSetId="REQSET_TALENT_1_PLAYER"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_1_SCIENCE"   ModifierType="MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_CHANGE" SubjectRequirementSetId="REQSET_TALENT_CITY" OwnerRequirementSetId="REQSET_TALENT_1_PLAYER"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_1_CULTURE"   ModifierType="MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_CHANGE" SubjectRequirementSetId="REQSET_TALENT_CITY" OwnerRequirementSetId="REQSET_TALENT_1_PLAYER"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_1_FAITH"     ModifierType="MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_CHANGE" SubjectRequirementSetId="REQSET_TALENT_CITY" OwnerRequirementSetId="REQSET_TALENT_1_PLAYER"/>
+        <!-- ===== Talent Reserve: Tier 2 (6 yields) ===== -->
+        <Row ModifierId="MODIFIER_TALENT_TIER_2_FOOD"      ModifierType="MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_CHANGE" SubjectRequirementSetId="REQSET_TALENT_CITY" OwnerRequirementSetId="REQSET_TALENT_2_PLAYER"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_2_PRODUCTION" ModifierType="MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_CHANGE" SubjectRequirementSetId="REQSET_TALENT_CITY" OwnerRequirementSetId="REQSET_TALENT_2_PLAYER"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_2_GOLD"      ModifierType="MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_CHANGE" SubjectRequirementSetId="REQSET_TALENT_CITY" OwnerRequirementSetId="REQSET_TALENT_2_PLAYER"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_2_SCIENCE"   ModifierType="MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_CHANGE" SubjectRequirementSetId="REQSET_TALENT_CITY" OwnerRequirementSetId="REQSET_TALENT_2_PLAYER"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_2_CULTURE"   ModifierType="MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_CHANGE" SubjectRequirementSetId="REQSET_TALENT_CITY" OwnerRequirementSetId="REQSET_TALENT_2_PLAYER"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_2_FAITH"     ModifierType="MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_CHANGE" SubjectRequirementSetId="REQSET_TALENT_CITY" OwnerRequirementSetId="REQSET_TALENT_2_PLAYER"/>
+        <!-- ===== Talent Reserve: Tier 3 (6 yields) ===== -->
+        <Row ModifierId="MODIFIER_TALENT_TIER_3_FOOD"      ModifierType="MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_CHANGE" SubjectRequirementSetId="REQSET_TALENT_CITY" OwnerRequirementSetId="REQSET_TALENT_3_PLAYER"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_3_PRODUCTION" ModifierType="MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_CHANGE" SubjectRequirementSetId="REQSET_TALENT_CITY" OwnerRequirementSetId="REQSET_TALENT_3_PLAYER"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_3_GOLD"      ModifierType="MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_CHANGE" SubjectRequirementSetId="REQSET_TALENT_CITY" OwnerRequirementSetId="REQSET_TALENT_3_PLAYER"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_3_SCIENCE"   ModifierType="MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_CHANGE" SubjectRequirementSetId="REQSET_TALENT_CITY" OwnerRequirementSetId="REQSET_TALENT_3_PLAYER"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_3_CULTURE"   ModifierType="MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_CHANGE" SubjectRequirementSetId="REQSET_TALENT_CITY" OwnerRequirementSetId="REQSET_TALENT_3_PLAYER"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_3_FAITH"     ModifierType="MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_CHANGE" SubjectRequirementSetId="REQSET_TALENT_CITY" OwnerRequirementSetId="REQSET_TALENT_3_PLAYER"/>
     </Modifiers>
 
     <!-- ===== Modifier 参数 ===== -->
@@ -90,26 +159,93 @@
         <Row ModifierId="MODIFIER_LISHIMIN_PRINCE_PRODUCTION_PENALTY" Name="Amount" Value="-50"/>
         <!-- 军事建造 +150% -->
         <Row ModifierId="MODIFIER_LISHIMIN_PRINCE_MILITARY_BOOST" Name="Amount" Value="150"/>
+
+        <!-- ===== Talent Reserve Arguments: Tier 1 ===== -->
+        <Row ModifierId="MODIFIER_TALENT_TIER_1_FOOD"       Name="YieldType" Value="YIELD_FOOD"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_1_FOOD"       Name="Amount"    Value="6"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_1_PRODUCTION" Name="YieldType" Value="YIELD_PRODUCTION"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_1_PRODUCTION" Name="Amount"    Value="6"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_1_GOLD"       Name="YieldType" Value="YIELD_GOLD"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_1_GOLD"       Name="Amount"    Value="6"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_1_SCIENCE"    Name="YieldType" Value="YIELD_SCIENCE"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_1_SCIENCE"    Name="Amount"    Value="6"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_1_CULTURE"    Name="YieldType" Value="YIELD_CULTURE"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_1_CULTURE"    Name="Amount"    Value="6"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_1_FAITH"      Name="YieldType" Value="YIELD_FAITH"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_1_FAITH"      Name="Amount"    Value="6"/>
+        <!-- ===== Talent Reserve Arguments: Tier 2 ===== -->
+        <Row ModifierId="MODIFIER_TALENT_TIER_2_FOOD"       Name="YieldType" Value="YIELD_FOOD"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_2_FOOD"       Name="Amount"    Value="6"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_2_PRODUCTION" Name="YieldType" Value="YIELD_PRODUCTION"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_2_PRODUCTION" Name="Amount"    Value="6"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_2_GOLD"       Name="YieldType" Value="YIELD_GOLD"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_2_GOLD"       Name="Amount"    Value="6"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_2_SCIENCE"    Name="YieldType" Value="YIELD_SCIENCE"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_2_SCIENCE"    Name="Amount"    Value="6"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_2_CULTURE"    Name="YieldType" Value="YIELD_CULTURE"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_2_CULTURE"    Name="Amount"    Value="6"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_2_FAITH"      Name="YieldType" Value="YIELD_FAITH"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_2_FAITH"      Name="Amount"    Value="6"/>
+        <!-- ===== Talent Reserve Arguments: Tier 3 ===== -->
+        <Row ModifierId="MODIFIER_TALENT_TIER_3_FOOD"       Name="YieldType" Value="YIELD_FOOD"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_3_FOOD"       Name="Amount"    Value="6"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_3_PRODUCTION" Name="YieldType" Value="YIELD_PRODUCTION"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_3_PRODUCTION" Name="Amount"    Value="6"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_3_GOLD"       Name="YieldType" Value="YIELD_GOLD"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_3_GOLD"       Name="Amount"    Value="6"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_3_SCIENCE"    Name="YieldType" Value="YIELD_SCIENCE"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_3_SCIENCE"    Name="Amount"    Value="6"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_3_CULTURE"    Name="YieldType" Value="YIELD_CULTURE"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_3_CULTURE"    Name="Amount"    Value="6"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_3_FAITH"      Name="YieldType" Value="YIELD_FAITH"/>
+        <Row ModifierId="MODIFIER_TALENT_TIER_3_FAITH"      Name="Amount"    Value="6"/>
     </ModifierArguments>
 
     <!-- ===== 条件设置：检测是否处于藩王线状态 ===== -->
     <RequirementSets>
         <Row RequirementSetId="REQSET_LISHIMIN_PRINCE_LINE" RequirementSetType="REQUIREMENTSET_TEST_ALL"/>
+
+        <!-- ===== Talent Reserve RequirementSets ===== -->
+        <!-- 城市过滤：仅首都（有宫殿） -->
+        <Row RequirementSetId="REQSET_TALENT_CITY"       RequirementSetType="REQUIREMENTSET_TEST_ALL"/>
+        <!-- 玩家过滤：对应的 Talent 阶层 Property 已设置 -->
+        <Row RequirementSetId="REQSET_TALENT_1_PLAYER"   RequirementSetType="REQUIREMENTSET_TEST_ALL"/>
+        <Row RequirementSetId="REQSET_TALENT_2_PLAYER"   RequirementSetType="REQUIREMENTSET_TEST_ALL"/>
+        <Row RequirementSetId="REQSET_TALENT_3_PLAYER"   RequirementSetType="REQUIREMENTSET_TEST_ALL"/>
     </RequirementSets>
 
     <RequirementSetRequirements>
         <Row RequirementSetId="REQSET_LISHIMIN_PRINCE_LINE" RequirementId="REQ_LISHIMIN_IS_PRINCE_LINE"/>
+
+        <Row RequirementSetId="REQSET_TALENT_CITY"       RequirementId="REQ_TALENT_CITY_PALACE"/>
+        <Row RequirementSetId="REQSET_TALENT_1_PLAYER"   RequirementId="REQ_TALENT_1"/>
+        <Row RequirementSetId="REQSET_TALENT_2_PLAYER"   RequirementId="REQ_TALENT_2"/>
+        <Row RequirementSetId="REQSET_TALENT_3_PLAYER"   RequirementId="REQ_TALENT_3"/>
     </RequirementSetRequirements>
 
-    <!-- Property 检查：Lua 设置 player:SetProperty("LiShimin_IsPrinceLine", 1) 时为藩王线 -->
-    <!-- 非藩王线时 Property 不存在或为 0，Modifier 不会生效 -->
     <Requirements>
         <Row RequirementId="REQ_LISHIMIN_IS_PRINCE_LINE" RequirementType="REQUIREMENT_PLAYER_PROPERTY_MATCHES"/>
+
+        <Row RequirementId="REQ_TALENT_CITY_PALACE"  RequirementType="REQUIREMENT_CITY_HAS_BUILDING"/>
+        <Row RequirementId="REQ_TALENT_1"            RequirementType="REQUIREMENT_PLAYER_PROPERTY_MATCHES"/>
+        <Row RequirementId="REQ_TALENT_2"            RequirementType="REQUIREMENT_PLAYER_PROPERTY_MATCHES"/>
+        <Row RequirementId="REQ_TALENT_3"            RequirementType="REQUIREMENT_PLAYER_PROPERTY_MATCHES"/>
     </Requirements>
 
     <RequirementArguments>
-        <Row RequirementId="REQ_LISHIMIN_IS_PRINCE_LINE" Name="PropertyName" Value="LiShimin_IsPrinceLine"/>
+        <Row RequirementId="REQ_LISHIMIN_IS_PRINCE_LINE" Name="PropertyName"  Value="LiShimin_IsPrinceLine"/>
         <Row RequirementId="REQ_LISHIMIN_IS_PRINCE_LINE" Name="PropertyValue" Value="1"/>
+
+        <Row RequirementId="REQ_TALENT_CITY_PALACE" Name="BuildingType" Value="BUILDING_PALACE"/>
+
+        <Row RequirementId="REQ_TALENT_1" Name="PropertyName"  Value="LiShimin_Talent_1"/>
+        <Row RequirementId="REQ_TALENT_1" Name="PropertyValue" Value="1"/>
+
+        <Row RequirementId="REQ_TALENT_2" Name="PropertyName"  Value="LiShimin_Talent_2"/>
+        <Row RequirementId="REQ_TALENT_2" Name="PropertyValue" Value="1"/>
+
+        <Row RequirementId="REQ_TALENT_3" Name="PropertyName"  Value="LiShimin_Talent_3"/>
+        <Row RequirementId="REQ_TALENT_3" Name="PropertyValue" Value="1"/>
     </RequirementArguments>
 
     <!--

@@ -1,3 +1,23 @@
+-- ===== 防御性依赖检查 =====
+if not LogDebug then
+    function LogDebug(msg) print("[LiShiminMod][DBG] " .. tostring(msg)) end
+end
+if not LogWarning then
+    function LogWarning(msg) print("[LiShiminMod][WARN] " .. tostring(msg)) end
+end
+if not LogError then
+    function LogError(msg) print("[LiShiminMod][ERR] " .. tostring(msg)) end
+end
+if not SafeCall then
+    function SafeCall(func, ...)
+        local ok, result = pcall(func, ...)
+        if not ok then print("[LiShiminMod][ERR] SafeCall: " .. tostring(result)) end
+        return result
+    end
+end
+if not IsNilOrEmpty then
+    function IsNilOrEmpty(v) return v == nil or v == "" end
+end
 -- ============================================================
 -- 藩王支线：背水一战
 -- 简介.txt定版：

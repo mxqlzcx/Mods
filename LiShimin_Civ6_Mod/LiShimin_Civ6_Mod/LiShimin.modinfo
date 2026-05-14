@@ -27,7 +27,7 @@
             <File>src/XML/LiShimin_Gameplay.xml</File>
             <File>src/XML/LiShimin_Modifiers.xml</File>
         </UpdateDatabase>
-        <UpdateText id="text">
+        <UpdateText id="text_ingame">
             <File>src/XML/LiShimin_Text.xml</File>
         </UpdateText>
         <UpdateArt id="art">
@@ -35,24 +35,15 @@
             <File>ArtDefs/Improvements.artdef</File>
         </UpdateArt>
         <GameplayScripts id="lua">
-            <File Priority="300">config/constants.lua</File>
-            <File Priority="290">config/balance.lua</File>
-            <File Priority="270">src/Lua/Utils.lua</File>
-            <File Priority="260">src/Lua/EventBus.lua</File>
-            <File Priority="250">src/Lua/HeroDeath.lua</File>
-            <File Priority="245">src/Lua/TalentReserve.lua</File>
-            <File Priority="242">src/Lua/TianceAura.lua</File>
-            <File Priority="240">src/Lua/PrinceLine.lua</File>
-            <File Priority="238">src/Lua/TianKeHan.lua</File>
-            <File Priority="235">src/Lua/ZhenguanTaizong.lua</File>
-            <File Priority="230">src/Lua/Coronation.lua</File>
-            <File Priority="220">src/Lua/Main.lua</File>
+            <!-- 所有子模块已内联合并到 Main.lua（单文件），避免 Civ6 沙盒隔离 -->
+            <File Priority="300">src/Lua/Main.lua</File>
         </GameplayScripts>
         <AddUserInterfaces id="ui">
             <Properties>
                 <Context>InGame</Context>
             </Properties>
             <File>src/UI/LiShiminPresentation.xml</File>
+            <File>src/UI/LiShiminPresentation.lua</File>
         </AddUserInterfaces>
     </InGameActions>
     <Files>

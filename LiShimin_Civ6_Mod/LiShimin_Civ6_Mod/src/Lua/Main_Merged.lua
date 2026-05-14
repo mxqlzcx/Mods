@@ -2564,7 +2564,12 @@ function LiShiminMod_OnGameStart()
         if IsLiShiminLeaderPlayer(pid) then
             local d = LiShiminMod_GetOrInitPlayer(pid)
             Log("GameStart: LiShimin player found, pid=" .. tostring(pid))
-            -- 天策上将改为生产力建造，不再自动赠送
+            -- 在 GameStart 直接尝试生成天策上将
+            if d and not d.TianceGeneralSpawned then
+                d.TianceGeneralSpawned = true
+                LiShiminSavePlayerFieldsToProperties(pid, d)
+                SpawnTianceGeneral(pid)
+            end
             ShowNotification(
                 pid,
                 "LOC_LISHIMIN_WELCOME_TITLE",
@@ -2597,7 +2602,13 @@ function LiShiminMod_OnTurnBegin(playerID)
     local d = LiShiminMod_GetOrInitPlayer(playerID)
     if not d then return end
 
-    -- 天策上将已改为生产力建造，不再自动赠送
+    -- 最保底方案：如果天策上将还没送出去，强制送
+    if not d.TianceGeneralSpawned then
+        d.TianceGeneralSpawned = true
+        LiShiminSavePlayerFieldsToProperties(playerID, d)
+        Log("TurnBegin: safety-net spawning Tiance General for pid=" .. tostring(playerID))
+        SpawnTianceGeneral(playerID)
+    end
 
     Coronation_OnTurnBegin(playerID)
     PrinceLine_OnTurnBegin(playerID)
@@ -2779,10 +2790,14 @@ function LiShiminMod_Initialize()
     Events.CityInitialized.Add(function(playerID, cityID)
         if not IsLiShiminLeaderPlayer(playerID) then return end
         local player = Players[playerID]
-        -- 天策上将已改为生产力建造，不再自动赠送
+        -- 如果这是玩家的第一座城，必然是开局首都
         if player and player:GetCities():GetCount() == 1 then
             local d = LiShiminMod_GetOrInitPlayer(playerID)
-            -- 仅初始化数据，不生成单位
+            if d and not d.TianceGeneralSpawned then
+                d.TianceGeneralSpawned = true
+                LiShiminSavePlayerFieldsToProperties(playerID, d)
+                SpawnTianceGeneral(playerID)
+            end
         end
     end)
 

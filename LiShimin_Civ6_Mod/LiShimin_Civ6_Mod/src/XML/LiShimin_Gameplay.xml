@@ -34,14 +34,13 @@
         <Row UnitType="UNIT_TIANCE_GENERAL"
              Name="LOC_UNIT_TIANCE_GENERAL_NAME"
              Description="LOC_UNIT_TIANCE_GENERAL_DESC"
-             BaseMoves="3" Cost="130" BaseSightRange="3"
+             BaseMoves="3" Cost="1" BaseSightRange="3"
              ZoneOfControl="false"
              Domain="DOMAIN_LAND"
              FormationClass="FORMATION_CLASS_LAND_COMBAT"
              PromotionClass="PROMOTION_CLASS_RANGED"
              Combat="45" RangedCombat="55" Range="2"
-             PrereqTech="TECH_ARCHERY"
-             PurchaseYield="YIELD_GOLD" Maintenance="0"
+             Maintenance="0"
              AdvisorType="ADVISOR_CONQUEST"/>
 
         <Row UnitType="UNIT_XUANJIA_ARMY"
@@ -66,6 +65,8 @@
              ZoneOfControl="false"
              Domain="DOMAIN_LAND"
              FormationClass="FORMATION_CLASS_CIVILIAN"
+             PrereqTech="TECH_FUTURE_TECH"
+             TraitType="TRAIT_LEADER_LI_SHIMIN"
              AdvisorType="ADVISOR_GENERAL"/>
     </Units>
 
@@ -82,7 +83,7 @@
              Description="LOC_IMPROVEMENT_XUANWU_GATE_DESC"
              Icon="ICON_IMPROVEMENT_XUANWU_GATE"
              PlunderType="NO_PLUNDER"
-             BuildableByPlayer="true"
+             Buildable="true"
              TraitType="TRAIT_LEADER_LI_SHIMIN"
              Domain="DOMAIN_LAND"/>
     </Improvements>
@@ -90,10 +91,6 @@
     <Improvement_ValidBuildUnits>
         <Row ImprovementType="IMPROVEMENT_XUANWU_GATE" UnitType="UNIT_BUILDER"/>
     </Improvement_ValidBuildUnits>
-
-    <Improvement_ValidAdjacentDistricts>
-        <Row ImprovementType="IMPROVEMENT_XUANWU_GATE" DistrictType="DISTRICT_CITY_CENTER"/>
-    </Improvement_ValidAdjacentDistricts>
 
     <Improvement_ValidTerrains>
         <Row ImprovementType="IMPROVEMENT_XUANWU_GATE" TerrainType="TERRAIN_GRASS"/>
@@ -114,53 +111,7 @@
         每城 +3% 全产出，上限 24%（8城）。
     -->
 
-    <!-- ===== 十八学士 Dummy Buildings ===== -->
-    <Buildings>
-        <Row BuildingType="BUILDING_TALENT_SCHOLAR_1"
-             Name="LOC_BUILDING_TALENT_SCHOLAR_NAME"
-             Description="LOC_BUILDING_TALENT_SCHOLAR_DESC"
-             PrereqDistrict="DISTRICT_CITY_CENTER"
-             PrereqTech="TECH_ARCHERY" Cost="0"
-             IconAtlas="ICON_ATLAS_DEFAULT" IconIndex="0"/>
-        <Row BuildingType="BUILDING_TALENT_SCHOLAR_2"
-             Name="LOC_BUILDING_TALENT_SCHOLAR_NAME"
-             Description="LOC_BUILDING_TALENT_SCHOLAR_DESC"
-             PrereqDistrict="DISTRICT_CITY_CENTER"
-             PrereqTech="TECH_ARCHERY" Cost="0"
-             IconAtlas="ICON_ATLAS_DEFAULT" IconIndex="0"/>
-        <Row BuildingType="BUILDING_TALENT_SCHOLAR_3"
-             Name="LOC_BUILDING_TALENT_SCHOLAR_NAME"
-             Description="LOC_BUILDING_TALENT_SCHOLAR_DESC"
-             PrereqDistrict="DISTRICT_CITY_CENTER"
-             PrereqTech="TECH_ARCHERY" Cost="0"
-             IconAtlas="ICON_ATLAS_DEFAULT" IconIndex="0"/>
-    </Buildings>
-
-    <!-- 十八学士产出 -->
-    <Building_YieldChanges>
-        <Row BuildingType="BUILDING_TALENT_SCHOLAR_1" YieldType="YIELD_FOOD" YieldChange="6"/>
-        <Row BuildingType="BUILDING_TALENT_SCHOLAR_1" YieldType="YIELD_PRODUCTION" YieldChange="6"/>
-        <Row BuildingType="BUILDING_TALENT_SCHOLAR_1" YieldType="YIELD_GOLD" YieldChange="6"/>
-        <Row BuildingType="BUILDING_TALENT_SCHOLAR_1" YieldType="YIELD_SCIENCE" YieldChange="6"/>
-        <Row BuildingType="BUILDING_TALENT_SCHOLAR_1" YieldType="YIELD_CULTURE" YieldChange="6"/>
-        <Row BuildingType="BUILDING_TALENT_SCHOLAR_1" YieldType="YIELD_FAITH" YieldChange="6"/>
-
-        <Row BuildingType="BUILDING_TALENT_SCHOLAR_2" YieldType="YIELD_FOOD" YieldChange="12"/>
-        <Row BuildingType="BUILDING_TALENT_SCHOLAR_2" YieldType="YIELD_PRODUCTION" YieldChange="12"/>
-        <Row BuildingType="BUILDING_TALENT_SCHOLAR_2" YieldType="YIELD_GOLD" YieldChange="12"/>
-        <Row BuildingType="BUILDING_TALENT_SCHOLAR_2" YieldType="YIELD_SCIENCE" YieldChange="12"/>
-        <Row BuildingType="BUILDING_TALENT_SCHOLAR_2" YieldType="YIELD_CULTURE" YieldChange="12"/>
-        <Row BuildingType="BUILDING_TALENT_SCHOLAR_2" YieldType="YIELD_FAITH" YieldChange="12"/>
-
-        <Row BuildingType="BUILDING_TALENT_SCHOLAR_3" YieldType="YIELD_FOOD" YieldChange="18"/>
-        <Row BuildingType="BUILDING_TALENT_SCHOLAR_3" YieldType="YIELD_PRODUCTION" YieldChange="18"/>
-        <Row BuildingType="BUILDING_TALENT_SCHOLAR_3" YieldType="YIELD_GOLD" YieldChange="18"/>
-        <Row BuildingType="BUILDING_TALENT_SCHOLAR_3" YieldType="YIELD_SCIENCE" YieldChange="18"/>
-        <Row BuildingType="BUILDING_TALENT_SCHOLAR_3" YieldType="YIELD_CULTURE" YieldChange="18"/>
-        <Row BuildingType="BUILDING_TALENT_SCHOLAR_3" YieldType="YIELD_FAITH" YieldChange="18"/>
-    </Building_YieldChanges>
-
-    <!-- 隐藏建筑（不显示在游戏中） -->
-    <Building_GreatPersonPoints>
-    </Building_GreatPersonPoints>
+    <!-- ===== 十八学士产出已改用 Property + XML Modifier 实现 ===== -->
+    <!-- 参见 LiShimin_Modifiers.xml 中的 MODIFIER_TALENT_TIER_1/2/3 系列 -->
+    <!-- 参见 TalentReserve.lua 中的 SetProperty("LiShimin_Talent_N", 1) 逻辑 -->
 </GameData>

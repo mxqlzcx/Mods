@@ -1,30 +1,57 @@
+-- ===== 防御性依赖检查 =====
+if not LogDebug then
+    function LogDebug(msg) print("[LiShiminMod][DBG] " .. tostring(msg)) end
+end
+if not LogWarning then
+    function LogWarning(msg) print("[LiShiminMod][WARN] " .. tostring(msg)) end
+end
+if not LogError then
+    function LogError(msg) print("[LiShiminMod][ERR] " .. tostring(msg)) end
+end
+if not SafeCall then
+    function SafeCall(func, ...)
+        local ok, result = pcall(func, ...)
+        if not ok then print("[LiShiminMod][ERR] SafeCall: " .. tostring(result)) end
+        return result
+    end
+end
+if not IsNilOrEmpty then
+    function IsNilOrEmpty(v) return v == nil or v == "" end
+end
 -- ============================================================
 -- 天策府十八学士：每招募1名伟人，原始首都全产出+6，最多3层（+18）
--- 定版实现：
---   Dummy Buildings: BUILDING_TALENT_SCHOLAR_1/2/3
---   各自在 XML Building_YieldChanges 中配置 +6/+12/+18 全产出
---   Lua 负责：招募伟人时在首都创建对应建筑，切换唐太宗时清空
---   仅在「天策上将」和「登基仪式」期间生效
 -- ============================================================
 
 -- 伟人招募回调
 function TalentReserve_OnGreatPersonRecruited(playerID, greatPersonID, greatPersonType)
-    if not IsLiShiminLeaderPlayer(playerID) then return end
+    Log("TalentReserve: OnGreatPersonRecruited fired for pid=" .. tostring(playerID))
+    if not IsLiShiminLeaderPlayer(playerID) then
+        Log("TalentReserve: not LiShimin player, skipping")
+        return
+    end
 
     local d = LiShiminMod_GetOrInitPlayer(playerID)
-    if not d then return end
+    if not d then
+        Log("TalentReserve: player data nil, skipping")
+        return
+    end
 
-    -- 唐太宗阶段不叠加
-    if d.LeaderState == LEADER_STATE.EMPEROR_TAIZONG then return end
+    if d.LeaderState == LEADER_STATE.EMPEROR_TAIZONG then
+        Log("TalentReserve: already EMPEROR_TAIZONG, skipping")
+        return
+    end
 
     local prevStacks = d.TalentStacks or 0
     local newStacks = math.min(prevStacks + 1, TALENT_RESERVE_MAX_STACKS)
-    if newStacks == prevStacks then return end  -- 已达上限
+    if newStacks == prevStacks then
+        Log("TalentReserve: stacks at max (" .. newStacks .. "), skipping")
+        return
+    end
 
     d.TalentStacks = newStacks
     LiShiminSavePlayerFieldsToProperties(playerID, d)
 
-    -- 创建对应等级的 Dummy Building
+    Log("TalentReserve: stacks " .. prevStacks .. " -> " .. newStacks)
     TalentReserve_ApplyCapitalBuilding(playerID, newStacks)
 
     local bonus = newStacks * TALENT_RESERVE_PER_GP
@@ -37,52 +64,29 @@ function TalentReserve_OnGreatPersonRecruited(playerID, greatPersonID, greatPers
     )
 end
 
--- ===== 在首都创建 Dummy Building =====
+-- ===== 用 Property 开关替代隐藏建筑 =====
+-- Civ6 没有直接让城市瞬间获得建筑的 Lua API
+-- CreateIncompleteBuilding 只能塞进建造队列，不会立刻生效
+-- 改用 player:SetProperty() 拨动开关，让 XML Modifier 配合生效
 function TalentReserve_ApplyCapitalBuilding(playerID, stacks)
     local player = Players[playerID]
     if not player then return end
-    local capital = GetCapitalCity(player)
-    if not capital then return end
 
-    -- 先清除旧建筑
-    TalentReserve_RemoveAllScholarBuildings(capital)
+    -- 伟人有几层，就拨开几个开关（拆分为3个独立 Property）
+    if stacks >= 1 then player:SetProperty("LiShimin_Talent_1", 1) end
+    if stacks >= 2 then player:SetProperty("LiShimin_Talent_2", 1) end
+    if stacks >= 3 then player:SetProperty("LiShimin_Talent_3", 1) end
 
-    -- 无层数则不创建任何建筑
-    if stacks <= 0 then return end
-
-    -- 确定建筑类型
-    local buildingType
-    if stacks == 1 then
-        buildingType = GameInfo.Buildings["BUILDING_TALENT_SCHOLAR_1"]
-    elseif stacks == 2 then
-        buildingType = GameInfo.Buildings["BUILDING_TALENT_SCHOLAR_2"]
-    elseif stacks >= 3 then
-        buildingType = GameInfo.Buildings["BUILDING_TALENT_SCHOLAR_3"]
-    end
-
-    if not buildingType then return end
-
-    -- 检查建筑是否已存在
-    if capital:GetBuildings():HasBuilding(buildingType.Index) then return end
-
-    -- 在首都创建建筑（直接授予，不计入建造队列）
-    capital:GetBuildQueue():CreateBuilding(buildingType.Index, 100)
+    Log("TalentReserve: Activated Modifiers up to stack " .. tostring(stacks))
 end
 
--- ===== 移除所有十八学士建筑 =====
-function TalentReserve_RemoveAllScholarBuildings(city)
-    if not city then return end
-    local buildings = city:GetBuildings()
-    if not buildings then return end
-
-    for _, idx in ipairs({
-        GameInfo.Buildings["BUILDING_TALENT_SCHOLAR_1"] and GameInfo.Buildings["BUILDING_TALENT_SCHOLAR_1"].Index,
-        GameInfo.Buildings["BUILDING_TALENT_SCHOLAR_2"] and GameInfo.Buildings["BUILDING_TALENT_SCHOLAR_2"].Index,
-        GameInfo.Buildings["BUILDING_TALENT_SCHOLAR_3"] and GameInfo.Buildings["BUILDING_TALENT_SCHOLAR_3"].Index,
-    }) do
-        if idx and buildings:HasBuilding(idx) then
-            buildings:RemoveBuilding(idx)
-        end
+-- ===== 移除所有加成开关 =====
+function TalentReserve_RemoveAllScholarBuildings(playerID)
+    local player = Players[playerID]
+    if player then
+        player:SetProperty("LiShimin_Talent_1", 0)
+        player:SetProperty("LiShimin_Talent_2", 0)
+        player:SetProperty("LiShimin_Talent_3", 0)
     end
 end
 
@@ -91,38 +95,21 @@ function TalentReserve_OnCoronationComplete(playerID)
     if not IsLiShiminLeaderPlayer(playerID) then return end
     local d = LiShiminMod_GetOrInitPlayer(playerID)
     if not d then return end
-
     d.TalentStacks = 0
     LiShiminSavePlayerFieldsToProperties(playerID, d)
-
-    local player = Players[playerID]
-    if player then
-        local capital = GetCapitalCity(player)
-        TalentReserve_RemoveAllScholarBuildings(capital)
-    end
+    TalentReserve_RemoveAllScholarBuildings(playerID)
 end
 
--- ===== 藩王线激活时保留 ≠ 不再叠加 =====
 function TalentReserve_OnPrinceLineActivated(playerID)
-    -- 保留已有建筑，但不再通过伟人招募叠加
-    -- 通知由 Main.lua 统一分发，此处无需重复创建
 end
 
--- ===== 每回合补建（防建筑被意外移除）=====
 function TalentReserve_OnTurnBegin(playerID)
     if not IsLiShiminLeaderPlayer(playerID) then return end
     local d = LiShiminMod_GetOrInitPlayer(playerID)
     if not d then return end
     if d.LeaderState == LEADER_STATE.EMPEROR_TAIZONG then return end
-
     local stacks = d.TalentStacks or 0
     if stacks <= 0 then return end
-
-    local player = Players[playerID]
-    if not player then return end
-    local capital = GetCapitalCity(player)
-    if not capital then return end
-
     TalentReserve_ApplyCapitalBuilding(playerID, stacks)
 end
 
@@ -132,14 +119,7 @@ function TalentReserve_Initialize()
     EventBus:RegisterListener(EVENTS.ON_PLAYER_TURN_BEGIN, TalentReserve_OnTurnBegin, 45)
     EventBus:RegisterListener(EVENTS.ON_CORONATION_COMPLETED, TalentReserve_OnCoronationComplete, 40)
     EventBus:RegisterListener(EVENTS.ON_PRINCE_LINE_ACTIVATED, TalentReserve_OnPrinceLineActivated, 40)
-    Log("TalentReserve module initialized — 天策府十八学士已加载（DummyBuilding 定版）")
+    Log("TalentReserve module initialized (diagnosis build)")
 end
 
 TalentReserve_Initialize()
-
-return {
-    TalentReserve_OnGreatPersonRecruited = TalentReserve_OnGreatPersonRecruited,
-    TalentReserve_OnTurnBegin = TalentReserve_OnTurnBegin,
-    TalentReserve_ApplyCapitalBuilding = TalentReserve_ApplyCapitalBuilding,
-    TalentReserve_RemoveAllScholarBuildings = TalentReserve_RemoveAllScholarBuildings,
-}

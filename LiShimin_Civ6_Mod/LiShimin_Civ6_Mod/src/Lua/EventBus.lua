@@ -1,3 +1,54 @@
+-- ===== 防御性依赖检查 =====
+print("[LiShiminMod] EventBus.lua loading... DEBUG_MODE=" .. tostring(DEBUG_MODE) .. " LogDebug=" .. tostring(LogDebug) .. " print=" .. tostring(print))
+if not LogDebug then
+    -- Civ6 中 include() 用于加载同 mod 下的 Lua 文件
+    local utilsLoaded, utilsErr = pcall(function()
+        include("Utils.lua")
+    end)
+    if not utilsLoaded then
+        -- include 路径可能需要相对于脚本根目录
+        utilsLoaded, utilsErr = pcall(function()
+            include("src/Lua/Utils.lua")
+        end)
+    end
+    if not utilsLoaded then
+        -- 最后手段：内联定义核心函数
+        function LogDebug(msg) print("[LiShiminMod][DBG] " .. tostring(msg)) end
+        function LogWarning(msg) print("[LiShiminMod][WARN] " .. tostring(msg)) end
+        function LogError(msg) print("[LiShiminMod][ERR] " .. tostring(msg)) end
+        function SafeCall(func, ...)
+            local ok, result = pcall(func, ...)
+            if not ok then print("[LiShiminMod][ERR] SafeCall: " .. tostring(result)) end
+            return result
+        end
+        function IsNilOrEmpty(v) return v == nil or v == "" end
+        print("[LiShiminMod][ERR] Utils.lua failed to load, using inline fallbacks: " .. tostring(utilsErr))
+    else
+        print("[LiShiminMod] Utils.lua loaded via include()")
+    end
+end
+
+-- ===== 事件名称常量（必须在 EventBus:Initialize() 之前定义）=====
+EVENTS = {
+    -- 核心游戏事件
+    ON_GAME_START             = "ON_GAME_START",
+    ON_PLAYER_TURN_BEGIN      = "ON_PLAYER_TURN_BEGIN",
+    ON_PLAYER_TURN_END        = "ON_PLAYER_TURN_END",
+    ON_UNIT_CREATED           = "ON_UNIT_CREATED",
+    ON_UNIT_KILLED            = "ON_UNIT_KILLED",
+    ON_CITY_CONQUERED         = "ON_CITY_CONQUERED",
+    ON_GREAT_PERSON_RECRUITED = "ON_GREAT_PERSON_RECRUITED",
+    ON_ERA_CHANGED            = "ON_ERA_CHANGED",
+    ON_BUILDING_CONSTRUCTED   = "ON_BUILDING_CONSTRUCTED",
+    -- 模组自定义事件
+    ON_XUANWU_GATE_BUILT      = "ON_XUANWU_GATE_BUILT",
+    ON_SHOOT_LI_JIANCHENG     = "ON_SHOOT_LI_JIANCHENG",
+    ON_CORONATION_COMPLETED   = "ON_CORONATION_COMPLETED",
+    ON_PRINCE_LINE_ACTIVATED  = "ON_PRINCE_LINE_ACTIVATED",
+    ON_RESTORATION_COMPLETED  = "ON_RESTORATION_COMPLETED",
+    ON_RESTORATION_FAILED     = "ON_RESTORATION_FAILED",
+}
+
 -- 事件总线系统
 -- 用于模组内部不同模块之间的通信和事件处理
 -- 采用观察者模式，允许模块注册事件监听器和触发事件
@@ -90,10 +141,12 @@ EventBus = {
         LogDebug("Event fired: " .. eventName)
         
         -- 调用所有监听器
+        -- 注意：必须先捕获 vararg 到局部变量，闭包内不能直接使用 ...
+        local args = table.pack(...)
         if self.listeners[eventName] then
             for _, listener in ipairs(self.listeners[eventName]) do
                 SafeCall(function()
-                    listener.callback(...)
+                    listener.callback(table.unpack(args))
                 end)
             end
         end
@@ -148,13 +201,17 @@ function RegisterGameEvents()
     end)
     
     -- 单位创建事件
-    Events.UnitCreated.Add(function(playerID, unitID, unitType, plotX, plotY)
+    Events.UnitAddedToMap.Add(function(playerID, unitID)
         local unit = UnitManager.GetUnit(playerID, unitID)
         if unit then
+            local unitInfo = GameInfo.Units[unit:GetUnitType()]
+            local unitType = (unitInfo and unitInfo.Hash) or unit:GetUnitType()
+            local plotX, plotY = unit:GetX(), unit:GetY()
             EventBus:FireEvent(EVENTS.ON_UNIT_CREATED, playerID, unit, unitType, plotX, plotY)
         end
     end)
     
+    -- 单位死亡事件
     -- 单位死亡事件
     Events.UnitKilledInCombat.Add(function(unitsKilled)
         if unitsKilled and unitsKilled[1] then
@@ -164,18 +221,46 @@ function RegisterGameEvents()
         end
     end)
     
-    -- 城市征服事件
-    Events.CityConquered.Add(function(ownerID, cityID, conquerorID)
-        local city = CityManager.GetCity(ownerID, cityID)
-        if city then
-            EventBus:FireEvent(EVENTS.ON_CITY_CONQUERED, ownerID, city, conquerorID)
-        end
-    end)
+    -- 城市征服事件（Events.CityConquered 可能不存在，用 Events.CityRemovedFromMap 兜底）
+    if Events.CityConquered then
+        Events.CityConquered.Add(function(ownerID, cityID, conquerorID)
+            local city = CityManager.GetCity(ownerID, cityID)
+            if city then
+                EventBus:FireEvent(EVENTS.ON_CITY_CONQUERED, ownerID, city, conquerorID)
+            end
+        end)
+    else
+        Events.CityRemovedFromMap.Add(function(playerID, cityID)
+            -- CityRemovedFromMap: playerID = original owner, cityID = city index
+            -- 需要通过城市名和地图判断是否被其他玩家征服（粗筛，避免漏掉）
+            local city = CityManager.GetCity(playerID, cityID)
+            if city and city:IsCapital() == false then
+                -- 简化：仅通知，不传递 conquerorID（由 Main.lua 通过 CityConquered 事件自行判断归属）
+                EventBus:FireEvent(EVENTS.ON_CITY_CONQUERED, playerID, city, -1)
+            end
+        end)
+    end
     
-    -- 伟人招募事件
-    Events.GreatPersonRecruited.Add(function(playerID, greatPersonID, greatPersonType)
-        EventBus:FireEvent(EVENTS.ON_GREAT_PERSON_RECRUITED, playerID, greatPersonID, greatPersonType)
-    end)
+    -- 伟人招募事件（多重兜底确保所有版本都能触发）
+    if Events.GreatPersonEarned then
+        Events.GreatPersonEarned.Add(function(playerID, greatPersonIndex, greatPersonClass)
+            EventBus:FireEvent(EVENTS.ON_GREAT_PERSON_RECRUITED, playerID, greatPersonIndex, greatPersonClass)
+        end)
+    elseif Events.GreatPersonRecruited then
+        Events.GreatPersonRecruited.Add(function(playerID, greatPersonID, greatPersonType)
+            EventBus:FireEvent(EVENTS.ON_GREAT_PERSON_RECRUITED, playerID, greatPersonID, greatPersonType)
+        end)
+    elseif Events.GreatPersonActivated then
+        Events.GreatPersonActivated.Add(function(playerID, unitID, greatPersonIndividualID, greatPersonClassID)
+            EventBus:FireEvent(EVENTS.ON_GREAT_PERSON_RECRUITED, playerID, unitID, greatPersonIndividualID)
+        end)
+    elseif Events.UnitGreatPersonCreated then
+        Events.UnitGreatPersonCreated.Add(function(playerID, unitID, greatPersonType)
+            EventBus:FireEvent(EVENTS.ON_GREAT_PERSON_RECRUITED, playerID, unitID, greatPersonType)
+        end)
+    else
+        LogWarning("Great Person events not found — TalentReserve will not receive GP recruitment events")
+    end
     
     -- 时代变更事件
     Events.PlayerEraChanged.Add(function(playerID, newEra, oldEra)

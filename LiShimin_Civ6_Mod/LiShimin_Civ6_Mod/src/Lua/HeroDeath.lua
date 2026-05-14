@@ -1,3 +1,23 @@
+-- ===== 防御性依赖检查 =====
+if not LogDebug then
+    function LogDebug(msg) print("[LiShiminMod][DBG] " .. tostring(msg)) end
+end
+if not LogWarning then
+    function LogWarning(msg) print("[LiShiminMod][WARN] " .. tostring(msg)) end
+end
+if not LogError then
+    function LogError(msg) print("[LiShiminMod][ERR] " .. tostring(msg)) end
+end
+if not SafeCall then
+    function SafeCall(func, ...)
+        local ok, result = pcall(func, ...)
+        if not ok then print("[LiShiminMod][ERR] SafeCall: " .. tostring(result)) end
+        return result
+    end
+end
+if not IsNilOrEmpty then
+    function IsNilOrEmpty(v) return v == nil or v == "" end
+end
 -- 天策上将死亡处理模块
 -- 负责处理天策上将死亡时的游戏逻辑和失败判定
 

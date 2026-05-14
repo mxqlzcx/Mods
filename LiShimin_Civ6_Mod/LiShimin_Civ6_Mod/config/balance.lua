@@ -133,9 +133,4 @@ function GetActiveBalance()
     return GetBalanceData()
 end
 
-return {
-    BalanceData_v100       = BalanceData_v100,
-    BalanceData_v200       = BalanceData_v200,
-    GetBalanceData         = GetBalanceData,
-    GetActiveBalance       = GetActiveBalance,
-}
+-- balance.lua: 所有数据已作为全局变量/函数定义，无需 return 表
